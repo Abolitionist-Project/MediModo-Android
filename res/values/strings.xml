@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MediModo</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_medication_new">Add new medication</string>
+    <string name="action_save">Save</string>
+    <string name="action_discard">Discard</string>
+
+    <string name="managemedication_title">Medication info</string>
+    <string name="managemedication_inventory">Inventory</string>
+    <string name="managemedication_inventory_add">Add new dose</string>
+    <string name="managemedication_schedule">Schedule</string>
+    <string name="managemedication_schedule_add">Add new intake</string>
+    <string name="managemedication_usage">Usage</string>
+    <string name="managemedication_sidefx">Sidefx</string>
+    <string name="managemedication_medname_hint">Medication name</string>
+
+</resources>

@@ -1,0 +1,25 @@
+<resources>
+
+    <style name="Default" parent="Theme.Sherlock.Light">
+        <item name="android:actionBarStyle">@style/Default.ActionBar</item>
+        <item name="actionBarStyle">@style/Default.ActionBar</item>
+        <item name="android:windowBackground">@color/window_background</item>
+
+        <item name="android:actionBarItemBackground">@drawable/selector</item>
+        <item name="android:selectableItemBackground">@drawable/selector</item>
+        <item name="actionBarItemBackground">@drawable/selector</item>
+        <item name="selectableItemBackground">@drawable/selector</item>
+    </style>
+
+    <style name="Default.ActionBar" parent="Widget.Sherlock.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/TitleText</item>
+        <item name="titleTextStyle">@style/TitleText</item>
+        <item name="android:icon">@drawable/ic_action_appicon</item>
+        <item name="icon">@drawable/ic_action_appicon</item>
+    </style>
+
+    <style name="TitleText" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+</resources>
