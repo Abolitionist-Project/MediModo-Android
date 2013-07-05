@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.quantimodo.medication.fragments.MedicationFragment;
+import com.quantimodo.medication.fragments.MedicationOverviewFragment;
 
 public class MainActivity extends SherlockFragmentActivity
 {
@@ -22,7 +22,7 @@ public class MainActivity extends SherlockFragmentActivity
 
 		if (savedInstanceState != null)
 		{
-			medicationFragment = getSupportFragmentManager().getFragment(savedInstanceState, MedicationFragment.class.getName());
+			medicationFragment = getSupportFragmentManager().getFragment(savedInstanceState, MedicationOverviewFragment.class.getName());
 		}
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
@@ -31,7 +31,7 @@ public class MainActivity extends SherlockFragmentActivity
 		{
 			if (medicationFragment == null)
 			{
-				medicationFragment = new MedicationFragment();
+				medicationFragment = new MedicationOverviewFragment();
 			}
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.mainFragment, medicationFragment);
@@ -43,7 +43,7 @@ public class MainActivity extends SherlockFragmentActivity
 	{
 		super.onSaveInstanceState(outState);
 
-		getSupportFragmentManager().putFragment(outState, MedicationFragment.class.getName(), medicationFragment);
+		getSupportFragmentManager().putFragment(outState, MedicationOverviewFragment.class.getName(), medicationFragment);
 	}
 
 	@Override

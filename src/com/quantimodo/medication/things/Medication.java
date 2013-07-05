@@ -35,8 +35,8 @@ public class Medication
 
 	/*
 	 * Convert a string to a string[] containing side effects for this medication
-     * @param   instructions    A comma separated list of side effects
-    */
+	 * @param   instructions    A comma separated list of side effects
+     */
 	public void setSideFx(String sideFx)
 	{
 		this.sideFx = sideFx.split(",");

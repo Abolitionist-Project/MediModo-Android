@@ -7,13 +7,18 @@
     <string name="action_save">Save</string>
     <string name="action_discard">Discard</string>
 
+    <string name="medicationoverview_today">Today</string>
+
     <string name="managemedication_title">Medication info</string>
-    <string name="managemedication_inventory">Inventory</string>
-    <string name="managemedication_inventory_add">Add new dose</string>
+    <string name="managemedication_Dosages">Dosages</string>
+    <string name="managemedication_dosages_add">Add</string>
+    <string name="managemedication_dosages_strength">Strength</string>
+    <string name="managemedication_dosages_quantity">Qty</string>
+    <string name="managemedication_info">Information</string>
     <string name="managemedication_schedule">Schedule</string>
     <string name="managemedication_schedule_add">Add new intake</string>
-    <string name="managemedication_usage">Usage</string>
-    <string name="managemedication_sidefx">Sidefx</string>
+    <string name="managemedication_usage">Usage instructions</string>
+    <string name="managemedication_sidefx">Side effects</string>
     <string name="managemedication_medname_hint">Medication name</string>
 
 </resources>

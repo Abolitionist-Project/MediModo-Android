@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/card">
+
+    <com.quantimodo.medication.widgets.TextViewRobotoLight
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="12dp"
+        android:paddingLeft="18dp"
+        android:text="@string/managemedication_Dosages"
+        android:textSize="24sp"
+        android:textColor="@color/card_title" />
+
+    <EditText
+        android:id="@+id/btAddNew"
+        android:layout_width="58dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:hint="@string/managemedication_dosages_add"
+        android:inputType="numberSigned"/>
+
+    <View
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:background="@drawable/card_bottom" />
+</LinearLayout>

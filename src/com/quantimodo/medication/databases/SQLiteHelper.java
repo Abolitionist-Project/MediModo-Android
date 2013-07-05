@@ -45,7 +45,15 @@ public class SQLiteHelper extends SQLiteOpenHelper
 				"unit TEXT," +
 				"inventory INTEGER," +
 				"FOREIGN KEY(medicationId) REFERENCES Medication(id)" +
-				");\n");
+				");");
+
+		//TODO store medication name in case it's deleted later?
+		database.execSQL("CREATE TABLE MedicationIntake (" +
+				"medicationIdid TEXT PRIMARY KEY," +
+				"date INTEGER," +
+				"deviation INTEGER," +
+				"FOREIGN KEY(medicationId) REFERENCES Medication(id)" +
+				");");
 	}
 
 	@Override

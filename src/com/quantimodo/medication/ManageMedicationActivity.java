@@ -1,21 +1,39 @@
 package com.quantimodo.medication;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.animation.Animation;
+import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.internal.widget.IcsSpinner;
+import com.google.gson.stream.JsonReader;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class ManageMedicationActivity extends SherlockActivity
 {
 	LinearLayout linearLayout;
+	ArrayAdapter<String> autoCompleteAdapter;
+
+	AutoCompleteTextView tvMedicationName;
+
+	LinearLayout lnDosageCard;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -27,8 +45,18 @@ public class ManageMedicationActivity extends SherlockActivity
 
 		linearLayout = (LinearLayout) findViewById(R.id.lnMain);
 
-		initDosageCard();
+		initAutoComplete();
+		initInventoryCard();
 		initScheduleCard();
+		initInfoCard();
+	}
+
+	private void initAutoComplete()
+	{
+		tvMedicationName = (AutoCompleteTextView) findViewById(R.id.tvMedicationName);
+		autoCompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+		tvMedicationName.setAdapter(autoCompleteAdapter);
+		tvMedicationName.addTextChangedListener(onMedicationNameChanged);
 	}
 
 	private void initActionBarButtons()
@@ -58,13 +86,32 @@ public class ManageMedicationActivity extends SherlockActivity
 		actionBar.setCustomView(actionBarView);
 	}
 
-	private void initDosageCard()
+	private void initInventoryCard()
 	{
-		View view = getLayoutInflater().inflate(R.layout.activiy_managemedication_dosages, null);
+		LayoutInflater inflater = getLayoutInflater();
+		lnDosageCard = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_dosages, null);
 
-		IcsSpinner dosageSpinner = (IcsSpinner) view.findViewById(R.id.spDosage);
-		final DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this, R.layout.sherlock_spinner_dropdown_item);
-		dosageSpinner.setAdapter(adapter);
+		final EditText btAddNew = (EditText) lnDosageCard.findViewById(R.id.btAddNew);
+		btAddNew.setFocusable(false);
+		btAddNew.setOnClickListener(new View.OnClickListener()
+		{
+			@Override public void onClick(View view)
+			{
+				addDosageLine(false);
+			}
+		});
+		addDosageLine(true);
+
+		linearLayout.addView(lnDosageCard);
+	}
+
+	private void initInfoCard()
+	{
+		View paddingView = new View(getApplicationContext());
+		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
+		linearLayout.addView(paddingView);
+
+		View view = getLayoutInflater().inflate(R.layout.activity_managemedication_info, null);
 		linearLayout.addView(view);
 	}
 
@@ -79,10 +126,52 @@ public class ManageMedicationActivity extends SherlockActivity
 		linearLayout.addView(view);
 	}
 
+	private void addDosageLine(boolean isFirst)
+	{
+		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_managemedication_dosages_line, null);
+
+		final EditText etQuantity = (EditText) newDosageLine.findViewById(R.id.etQuantity);
+		final EditText etDosageStrength = (EditText) newDosageLine.findViewById(R.id.etDosageStrength);
+		final IcsSpinner spDosageUnit = (IcsSpinner) newDosageLine.findViewById(R.id.spDosageUnit);
+		final ImageButton btRemoveDose = (ImageButton) newDosageLine.findViewById(R.id.btRemoveDose);
+
+		btRemoveDose.setOnClickListener(new View.OnClickListener()
+	{
+		@Override public void onClick(View view)
+		{
+			Utils.collapseView(newDosageLine, new Animation.AnimationListener()
+			{
+				@Override public void onAnimationStart(Animation animation)
+				{
+				}
+
+				@Override public void onAnimationEnd(Animation animation)
+				{
+					lnDosageCard.removeView(newDosageLine);
+				}
+
+				@Override public void onAnimationRepeat(Animation animation)
+				{
+				}
+			});
+		}
+	});
+
+		DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this, R.layout.sherlock_spinner_dropdown_item);
+		spDosageUnit.setAdapter(adapter);
+
+		lnDosageCard.addView(newDosageLine, lnDosageCard.getChildCount() - 2);
+
+		if(!isFirst)
+		{
+			Utils.expandView(newDosageLine, null);
+			etQuantity.requestFocus();
+		}
+	}
+
 	class DosageTypeSpinnerAdapter extends ArrayAdapter<String>
 	{
 		LayoutInflater inflater;
-
 		int preferredHeight;
 
 		public DosageTypeSpinnerAdapter(Context context, int textViewResourceId)
@@ -117,49 +206,134 @@ public class ManageMedicationActivity extends SherlockActivity
 			view.setBackgroundResource(R.color.card_background);
 			view.setHeight(preferredHeight);
 
-			view.setText("mg");
+			view.setText("Milligrams (mg)");
 
 			return view;
 		}
 	}
 
-	class MedTypeSpinnerAdapter extends ArrayAdapter<String>
+	private TextWatcher onMedicationNameChanged = new TextWatcher()
 	{
-		LayoutInflater inflater;
-
-		int preferredHeight;
-
-		public MedTypeSpinnerAdapter(Context context, int textViewResourceId)
+		@Override public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
 		{
-			super(context, textViewResourceId);
-
-			this.inflater = LayoutInflater.from(context);
-
-			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
 		}
 
-		@Override
-		public int getCount()
+		@Override public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
 		{
-			return 1;
 		}
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent)
+		@Override public void afterTextChanged(final Editable editable)
 		{
-			ImageView view = new ImageView(getContext());
-			view.setImageResource(R.drawable.ic_pill);
-
-			return view;
+			if (editable.length() < 2)
+			{
+				return;
+			}
+			Log.i("MediModo", "Start autocomplete thread");
+			updateAutoCompleteAdapter();
 		}
+	};
 
-		@Override
-		public View getDropDownView(int position, View convertView, ViewGroup parent)
+	HttpGet autoCompleteGetRequest;
+	private void updateAutoCompleteAdapter()
+	{
+		final Handler handler = new Handler();
+		final String currentValue = tvMedicationName.getText().toString();
+		Runnable run = new Runnable()
 		{
-			ImageView view = new ImageView(getContext());
-			view.setImageResource(R.drawable.ic_pill);
+			@Override public void run()
+			{
+				HttpClient client = new DefaultHttpClient();
+				if(autoCompleteGetRequest != null)
+				{
+					autoCompleteGetRequest.abort();
+				}
+				try
+				{
+					autoCompleteGetRequest = new HttpGet("http://www.healthline.com/v2/druginputautocomplete?query=" + URLEncoder.encode(currentValue, "utf-8"));
+					HttpResponse response = client.execute(autoCompleteGetRequest);
+					final BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+					JsonReader gsonReader = new JsonReader(reader);
 
-			return view;
-		}
+					gsonReader.beginObject();
+
+					final ArrayList<String> strings = new ArrayList<String>();
+
+					while (gsonReader.hasNext())
+					{
+						if (gsonReader.nextName().equals("Drugs"))
+						{
+							gsonReader.beginArray();
+
+							boolean inObject = false;
+							while (gsonReader.hasNext())
+							{
+								if (!inObject)
+								{
+									gsonReader.beginObject();
+									inObject = true;
+								}
+
+								String name = gsonReader.nextName();
+								if (name.equals("Term"))
+								{
+									String newMed = gsonReader.nextString();
+									boolean contains = false;
+									for(String currentString : strings)
+									{
+										if(currentString.equalsIgnoreCase(newMed))
+										{
+											contains = true;
+											break;
+										}
+									}
+									if(!contains)
+									{
+										strings.add(newMed);
+									}
+									gsonReader.endObject();
+									inObject = false;
+								}
+								else
+								{
+									gsonReader.skipValue();
+								}
+							}
+							gsonReader.endArray();
+
+						}
+						else
+						{
+							gsonReader.skipValue();
+						}
+					}
+
+					handler.post(new Runnable()
+					{
+						@Override public void run()
+						{
+							autoCompleteAdapter.clear();
+							if(Build.VERSION.SDK_INT >= 11)
+							{
+								autoCompleteAdapter.addAll(strings);
+							}
+							else
+							{
+								autoCompleteAdapter.setNotifyOnChange(false);
+								for(String string : strings)
+								{
+									autoCompleteAdapter.add(string);
+								}
+							}
+							tvMedicationName.setAdapter(autoCompleteAdapter);
+						}
+					});
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		};
+		new Thread(run).start();
 	}
 }
