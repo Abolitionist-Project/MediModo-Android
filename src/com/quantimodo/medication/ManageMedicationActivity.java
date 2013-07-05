@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -164,6 +165,8 @@ public class ManageMedicationActivity extends SherlockActivity
 		{
 			Utils.expandView(newDosageLine, null);
 			etDosageStrength.requestFocus();
+			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		}
 	}
 
