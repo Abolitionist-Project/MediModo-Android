@@ -16,7 +16,7 @@
     <string name="managemedication_dosages_quantity">Qty</string>
     <string name="managemedication_info">Information</string>
     <string name="managemedication_schedule">Schedule</string>
-    <string name="managemedication_schedule_add">Add new intake</string>
+    <string name="managemedication_schedule_add">Tap to setup your schedule</string>
     <string name="managemedication_usage">Usage instructions</string>
     <string name="managemedication_sidefx">Side effects</string>
     <string name="managemedication_medname_hint">Medication name</string>

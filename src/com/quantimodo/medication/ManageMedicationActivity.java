@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,32 +129,31 @@ public class ManageMedicationActivity extends SherlockActivity
 	{
 		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_managemedication_dosages_line, null);
 
-		final EditText etQuantity = (EditText) newDosageLine.findViewById(R.id.etQuantity);
 		final EditText etDosageStrength = (EditText) newDosageLine.findViewById(R.id.etDosageStrength);
 		final IcsSpinner spDosageUnit = (IcsSpinner) newDosageLine.findViewById(R.id.spDosageUnit);
 		final ImageButton btRemoveDose = (ImageButton) newDosageLine.findViewById(R.id.btRemoveDose);
 
 		btRemoveDose.setOnClickListener(new View.OnClickListener()
-	{
-		@Override public void onClick(View view)
 		{
-			Utils.collapseView(newDosageLine, new Animation.AnimationListener()
+			@Override public void onClick(View view)
 			{
-				@Override public void onAnimationStart(Animation animation)
+				Utils.collapseView(newDosageLine, new Animation.AnimationListener()
 				{
-				}
+					@Override public void onAnimationStart(Animation animation)
+					{
+					}
 
-				@Override public void onAnimationEnd(Animation animation)
-				{
-					lnDosageCard.removeView(newDosageLine);
-				}
+					@Override public void onAnimationEnd(Animation animation)
+					{
+						lnDosageCard.removeView(newDosageLine);
+					}
 
-				@Override public void onAnimationRepeat(Animation animation)
-				{
-				}
-			});
-		}
-	});
+					@Override public void onAnimationRepeat(Animation animation)
+					{
+					}
+				});
+			}
+		});
 
 		DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this, R.layout.sherlock_spinner_dropdown_item);
 		spDosageUnit.setAdapter(adapter);
@@ -165,7 +163,7 @@ public class ManageMedicationActivity extends SherlockActivity
 		if(!isFirst)
 		{
 			Utils.expandView(newDosageLine, null);
-			etQuantity.requestFocus();
+			etDosageStrength.requestFocus();
 		}
 	}
 
@@ -177,9 +175,7 @@ public class ManageMedicationActivity extends SherlockActivity
 		public DosageTypeSpinnerAdapter(Context context, int textViewResourceId)
 		{
 			super(context, textViewResourceId);
-
 			this.inflater = LayoutInflater.from(context);
-
 			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
 		}
 
@@ -193,8 +189,8 @@ public class ManageMedicationActivity extends SherlockActivity
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
 			TextView view = (TextView) inflater.inflate(R.layout.sherlock_spinner_dropdown_item, null);
-
-			view.setText("milligrams");
+			view.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+			view.setText("Micrograms (μg)");
 
 			return view;
 		}
@@ -206,7 +202,7 @@ public class ManageMedicationActivity extends SherlockActivity
 			view.setBackgroundResource(R.color.card_background);
 			view.setHeight(preferredHeight);
 
-			view.setText("Milligrams (mg)");
+			view.setText("Micrograms (μg)");
 
 			return view;
 		}
@@ -224,11 +220,10 @@ public class ManageMedicationActivity extends SherlockActivity
 
 		@Override public void afterTextChanged(final Editable editable)
 		{
-			if (editable.length() < 2)
+			if (editable.length() != 2)
 			{
 				return;
 			}
-			Log.i("MediModo", "Start autocomplete thread");
 			updateAutoCompleteAdapter();
 		}
 	};

@@ -9,31 +9,31 @@
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingLeft="18dp"
+        android:paddingTop="8dp"
+        android:paddingLeft="12dp"
         android:text="@string/managemedication_info"
         android:textSize="24sp"
-        android:textColor="@color/card_button" />
+        android:textColor="@color/card_title" />
 
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:hint="@string/managemedication_sidefx"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:layout_weight="1"
         android:hint="@string/managemedication_usage"/>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="2dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/card_bottom" />
 </LinearLayout>

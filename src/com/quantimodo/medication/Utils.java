@@ -35,7 +35,6 @@ public class Utils
 		final int targtetHeight = v.getMeasuredHeight();
 
 		v.getLayoutParams().height = 0;
-		v.setVisibility(View.VISIBLE);
 		Animation a = new Animation()
 		{
 			@Override
@@ -88,7 +87,6 @@ public class Utils
 			}
 		};
 
-		// 1dp/ms
 		a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density) * 3);
 		if(listener != null)
 		{

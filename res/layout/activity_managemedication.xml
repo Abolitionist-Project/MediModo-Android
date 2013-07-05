@@ -34,6 +34,23 @@
                 android:src="@drawable/ic_pill"
                 android:layout_gravity="center_horizontal|center_vertical"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+            <com.actionbarsherlock.internal.widget.IcsSpinner
+                android:id="@+id/spGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/ic_action_new"
+                android:layout_gravity="center_horizontal|center_vertical"/>
+        </LinearLayout>
 
 
     </LinearLayout>
