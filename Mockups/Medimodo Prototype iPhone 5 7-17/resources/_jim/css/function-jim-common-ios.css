@@ -1,0 +1,5 @@
+.radiobutton { border:1px solid black; width:16px; height:16px; }
+.checkbox { border:1px solid black; }
+
+.datarow input.radiobutton { border:1px solid black; }
+.datarow input.checkbox { border:1px solid black; }

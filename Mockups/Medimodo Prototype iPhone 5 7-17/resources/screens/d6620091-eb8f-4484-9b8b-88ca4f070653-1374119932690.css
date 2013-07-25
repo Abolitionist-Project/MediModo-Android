@@ -1,0 +1,81 @@
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 {
+  background-color: transparent;
+  background-image: none;
+  min-width: 320px;
+  min-height: 480px;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 > #alignmentBox {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Image_1 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 310px;
+  height: 470px;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Input_1 {
+  position: absolute;
+  top: 69px;
+  left: 57px;
+  padding-left: 9px;
+  width: 224px;
+  height: 28px;
+  background-color: #FFFFFF;
+  background-image: none;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: #A9A9A9;
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #A9A9A9;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #A9A9A9;
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: #A9A9A9;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Input_1 .valign {
+  vertical-align: middle;
+  line-height: 10pt;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Input_1 input {
+  color: #000000;
+  text-align: left;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 10pt;
+  font-style: normal;
+  font-weight: normal;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Label_1 {
+  position: absolute;
+  top: 19px;
+  left: 87px;
+  width: 178px;
+  height: 22px;
+  background-color: #FFFFFF;
+  background-image: none;
+  -webkit-transform: rotate(0deg);
+  -moz-transform: rotate(0deg);
+  transform: rotate(0deg);
+  color: #4E586D;
+  text-align: left;
+  text-decoration: none;
+  font-family: Arial;
+  font-size: 12pt;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 12pt;
+}
+#s-d6620091-eb8f-4484-9b8b-88ca4f070653 #s-Label_1 .valign {
+  vertical-align: middle;
+}
+#loadMark {
+}

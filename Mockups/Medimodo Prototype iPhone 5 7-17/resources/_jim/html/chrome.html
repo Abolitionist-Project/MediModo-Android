@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title> Justinmind - Error</title>
+    <style type="text/css">
+      body { background-color: #ffffff; }
+      #overlay { position: relative; top: 100px; width: 100%; }
+      #message {
+        border: 1px solid #dddddd;
+        border-radius: 6px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+        background-image: -moz-linear-gradient(top,#ffffff,#f4f4f4);
+        background-image: -webkit-linear-gradient(top,#ffffff,#f4f4f4);
+        background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#f4f4f4), color-stop(100%,#f4f4f4));
+        background-image: -o-linear-gradient(top,#ffffff,#f4f4f4);
+        width: 670px;
+        padding: 15px 30px;
+        margin: 0 auto;
+      }
+      #title { color: #2e2e2e; font-size: 20pt; font-weight: normal; margin-bottom: 4px; }
+      #error { color: #636363; font-size: 15pt; line-height: 23px; }
+      #error li { margin: 8px 0px; }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <div id="message">
+        <h2 id="title">Google Chrome Advise</h2>
+        <div id="error">
+          Due to security restrictions Google Chrome limits the access to local files. Follow these instructions to allow access:
+
+          <ul>
+            <li><b>Windows</b>: Close all running instances of Google Chrome and
+            <ul>
+            <li><b>OPTION 1</b>: Open Justinmind Prototyper and go to File\Preferences. Click on 'Browse' in 'Default browser' and select Chrome from your file system (C:\Users\[Username]\AppData\Local\Google\Chrome).</li>
+            <li><b>OPTION 2</b>: Edit Chrome shortcut with "PATH_TO_CHROME\chrome.exe" --allow-file-access-from-files</li>
+           </li>
+            </ul>
+          </ul>
+          
+            <ul>
+            <li><b>Mac</b>: Go to Google Chrome main menu, select 'Quit' and
+            <ul>
+            <li><b>OPTION 1</b>: Open Justinmind Prototyper and go to Prototyper Pro\Preferences. Click on 'Browse' in 'Default browser' and select Chrome from your file system (Applications\Google Chrome).
+            </li>
+            <li><b>OPTION 2</b>: Open a Terminal and type: open -a "Google Chrome" --args --allow-file-access-from-files</li>
+           </li>
+          </ul>
+          </ul>
+          
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
