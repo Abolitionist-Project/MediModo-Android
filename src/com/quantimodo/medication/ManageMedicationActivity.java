@@ -1,32 +1,35 @@
 package com.quantimodo.medication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.*;
+import android.widget.ImageButton;
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.internal.widget.IcsSpinner;
 import com.google.gson.stream.JsonReader;
+import com.google.zxing.client.android.CaptureActivity;
+import com.quantimodo.medication.dialogs.SetScheduleDialog;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.holoeverywhere.LayoutInflater;
+import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.widget.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class ManageMedicationActivity extends SherlockActivity
+public class ManageMedicationActivity extends Activity
 {
 	LinearLayout linearLayout;
 	ArrayAdapter<String> autoCompleteAdapter;
@@ -44,6 +47,14 @@ public class ManageMedicationActivity extends SherlockActivity
 		initActionBarButtons();
 
 		linearLayout = (LinearLayout) findViewById(R.id.lnMain);
+		ImageButton btBarcodeScanner = (ImageButton) findViewById(R.id.btBarcodeScanner);
+		btBarcodeScanner.setOnClickListener(new View.OnClickListener()
+		{
+			@Override public void onClick(View view)
+			{
+				startBarcodeScanner();
+			}
+		});
 
 		initAutoComplete();
 		initInventoryCard();
@@ -92,7 +103,6 @@ public class ManageMedicationActivity extends SherlockActivity
 		lnDosageCard = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_dosages, null);
 
 		final EditText btAddNew = (EditText) lnDosageCard.findViewById(R.id.btAddNew);
-		btAddNew.setFocusable(false);
 		btAddNew.setOnClickListener(new View.OnClickListener()
 		{
 			@Override public void onClick(View view)
@@ -105,6 +115,26 @@ public class ManageMedicationActivity extends SherlockActivity
 		linearLayout.addView(lnDosageCard);
 	}
 
+	private void initScheduleCard()
+	{
+		View paddingView = new View(getApplicationContext());
+		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
+		linearLayout.addView(paddingView);
+
+		View view = getLayoutInflater().inflate(R.layout.activity_managemedication_schedule, null);
+
+		final EditText btSetSchedule = (EditText) view.findViewById(R.id.btSetSchedule);
+		btSetSchedule.setOnClickListener(new View.OnClickListener()
+		{
+			@Override public void onClick(View view)
+			{
+				new SetScheduleDialog().show(ManageMedicationActivity.this);
+			}
+		});
+
+		linearLayout.addView(view);
+	}
+
 	private void initInfoCard()
 	{
 		View paddingView = new View(getApplicationContext());
@@ -115,23 +145,12 @@ public class ManageMedicationActivity extends SherlockActivity
 		linearLayout.addView(view);
 	}
 
-	private void initScheduleCard()
-	{
-		View paddingView = new View(getApplicationContext());
-		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
-		linearLayout.addView(paddingView);
-
-		View view = getLayoutInflater().inflate(R.layout.activity_managemedication_schedule, null);
-
-		linearLayout.addView(view);
-	}
-
 	private void addDosageLine(boolean isFirst)
 	{
 		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_managemedication_dosages_line, null);
 
 		final EditText etDosageStrength = (EditText) newDosageLine.findViewById(R.id.etDosageStrength);
-		final IcsSpinner spDosageUnit = (IcsSpinner) newDosageLine.findViewById(R.id.spDosageUnit);
+		final Spinner spDosageUnit = (Spinner) newDosageLine.findViewById(R.id.spDosageUnit);
 		final ImageButton btRemoveDose = (ImageButton) newDosageLine.findViewById(R.id.btRemoveDose);
 
 		btRemoveDose.setOnClickListener(new View.OnClickListener()
@@ -164,9 +183,9 @@ public class ManageMedicationActivity extends SherlockActivity
 		if(!isFirst)
 		{
 			Utils.expandView(newDosageLine, null);
-			etDosageStrength.requestFocus();
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+			etDosageStrength.requestFocus();
 		}
 	}
 
@@ -230,6 +249,13 @@ public class ManageMedicationActivity extends SherlockActivity
 			updateAutoCompleteAdapter();
 		}
 	};
+
+	private void startBarcodeScanner()
+	{
+		Intent intent = new Intent(this, CaptureActivity.class);
+		intent.putExtra("SCAN_MODE", "QR_CODE_MODE, PRODUCT_MODE");
+		startActivityForResult(intent, 0);
+	}
 
 	HttpGet autoCompleteGetRequest;
 	private void updateAutoCompleteAdapter()

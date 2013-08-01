@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:orientation="vertical">
+
+    <org.holoeverywhere.widget.Spinner
+        android:id="@+id/spScheduleType"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="48dp"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbEveryDay"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_every"/>
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbMonday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_monday"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbTuesday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_tuesday"/>
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbWednesday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_wednesday"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" >
+
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbThursday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_thursday"/>
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbFriday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_friday"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp" >
+
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbSaturday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_saturday"/>
+            <org.holoeverywhere.widget.CheckBox
+                android:id="@+id/cbSunday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/day_sunday"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

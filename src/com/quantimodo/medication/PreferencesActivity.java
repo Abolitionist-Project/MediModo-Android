@@ -1,7 +1,7 @@
 package com.quantimodo.medication;
 
-import net.saik0.android.unifiedpreference.UnifiedPreferenceActivity;
+import org.holoeverywhere.preference.PreferenceActivity;
 
-public class PreferencesActivity extends UnifiedPreferenceActivity
+public class PreferencesActivity extends PreferenceActivity
 {
 }

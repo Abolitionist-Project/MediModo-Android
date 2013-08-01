@@ -19,7 +19,7 @@ public class MainActivity extends SherlockFragmentActivity
 		setContentView(R.layout.activity_main);
 
 		Global.init(this);
-
+		
 		if (savedInstanceState != null)
 		{
 			medicationFragment = getSupportFragmentManager().getFragment(savedInstanceState, MedicationOverviewFragment.class.getName());

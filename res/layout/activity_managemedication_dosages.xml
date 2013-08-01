@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/card">
 
-    <com.quantimodo.medication.widgets.TextViewRobotoLight
+    <org.holoeverywhere.widget.TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,19 +13,22 @@
         android:paddingLeft="12dp"
         android:text="@string/managemedication_Dosages"
         android:textSize="24sp"
-        android:textColor="@color/card_title" />
+        android:textColor="@color/card_title"
+        android:fontFamily="light"/>
 
-    <EditText
+    <org.holoeverywhere.widget.EditText
         android:id="@+id/btAddNew"
-        android:layout_width="58dp"
+        android:layout_width="98dp"
         android:layout_height="48dp"
         android:layout_marginLeft="12dp"
         android:hint="@string/managemedication_dosages_add"
-        android:inputType="numberSigned"/>
+        android:inputType="none"
+        android:focusable="false"
+        android:background="@drawable/edittext_selector"/>
 
     <View
         android:layout_width="wrap_content"
         android:layout_height="2dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/card_bottom" />
-</LinearLayout>
+</org.holoeverywhere.widget.LinearLayout>

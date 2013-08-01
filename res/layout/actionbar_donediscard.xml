@@ -3,13 +3,13 @@
     android:layout_height="match_parent"
     android:layout_gravity="fill_horizontal">
 
-    <LinearLayout
+    <org.holoeverywhere.widget.LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="fill_horizontal"
         android:orientation="horizontal">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/actionbar_discard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -18,7 +18,7 @@
             android:background="@drawable/selector"
             android:clickable="true">
 
-            <TextView
+            <org.holoeverywhere.widget.TextView
                 style="@style/Widget.Sherlock.ActionBar.TabText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
                 android:text="@string/action_discard"
                 android:textColor="@android:color/white" />
 
-        </FrameLayout>
+        </org.holoeverywhere.widget.FrameLayout>
 
         <View
             android:layout_width="0.5dp"
@@ -38,7 +38,7 @@
             android:layout_marginBottom="12dp"
             android:background="#55FFFFFF" />
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/actionbar_done"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -47,7 +47,7 @@
             android:background="@drawable/selector"
             android:clickable="true">
 
-            <TextView
+            <org.holoeverywhere.widget.TextView
                 style="@style/Widget.Sherlock.ActionBar.TabText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:text="@string/action_save"
                 android:textColor="@android:color/white" />
 
-        </FrameLayout>
+        </org.holoeverywhere.widget.FrameLayout>
 
-    </LinearLayout>
+    </org.holoeverywhere.widget.LinearLayout>
 </RelativeLayout>

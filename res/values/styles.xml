@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Default" parent="Theme.Sherlock.Light">
+    <style name="Default" parent="Holo.Theme.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/Default.ActionBar</item>
         <item name="actionBarStyle">@style/Default.ActionBar</item>
         <item name="android:windowBackground">@color/window_background</item>

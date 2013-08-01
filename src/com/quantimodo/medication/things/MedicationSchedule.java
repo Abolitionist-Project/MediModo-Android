@@ -5,6 +5,10 @@ import java.util.UUID;
 
 public class MedicationSchedule
 {
+	public static final int TYPE_DAILY = 0;
+	public static final int TYPE_WEEKLY = 1;
+	public static final int TYPE_MONTHLY = 2;
+
 	public final String id;             // Primary
 
 	public final String medicationName;

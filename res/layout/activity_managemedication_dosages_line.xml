@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="12dp"
     android:paddingRight="12dp">
 
-    <EditText
+    <org.holoeverywhere.widget.EditText
         android:id="@+id/etDosageStrength"
-        android:layout_width="94dp"
+        android:layout_width="98dp"
         android:layout_height="48dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="12dp"
         android:hint="@string/managemedication_dosages_strength"
         android:imeOptions="actionDone"
         android:inputType="numberSigned"/>
-    <com.actionbarsherlock.internal.widget.IcsSpinner
+    <org.holoeverywhere.widget.Spinner
         android:id="@+id/spDosageUnit"
         android:layout_width="0dp"
         android:layout_weight="1"
@@ -28,4 +28,4 @@
         android:src="@drawable/ic_action_cancel_dark"
         android:background="@drawable/selector" />
 
-</LinearLayout>
+</org.holoeverywhere.widget.LinearLayout>

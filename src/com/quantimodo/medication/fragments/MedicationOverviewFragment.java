@@ -20,13 +20,15 @@ public class MedicationOverviewFragment extends SherlockFragment
 {
 	private ListView listView;
 
-	@Override public void onCreate(Bundle savedInstanceState)
+	@Override
+	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 	}
 
-	@Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
 

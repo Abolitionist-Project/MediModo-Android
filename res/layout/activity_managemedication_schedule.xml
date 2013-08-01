@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@drawable/card">
 
-    <com.quantimodo.medication.widgets.TextViewRobotoLight
+    <org.holoeverywhere.widget.TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,16 +13,19 @@
         android:paddingLeft="12dp"
         android:text="@string/managemedication_schedule"
         android:textSize="24sp"
-        android:textColor="@color/card_title" />
+        android:textColor="@color/card_title"
+        android:fontFamily="light"/>
 
-    <EditText
-        android:id="@+id/etSchedule"
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/btSetSchedule"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:hint="@string/managemedication_schedule_add"
-        android:inputType="none"/>
+        android:inputType="none"
+        android:focusable="false"
+        android:background="@drawable/edittext_selector"/>
 
     <View
         android:layout_width="wrap_content"
