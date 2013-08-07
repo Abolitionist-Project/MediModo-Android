@@ -35,6 +35,7 @@ public class Utils
 		final int targtetHeight = v.getMeasuredHeight();
 
 		v.getLayoutParams().height = 0;
+		v.setVisibility(View.VISIBLE);
 		Animation a = new Animation()
 		{
 			@Override

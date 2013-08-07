@@ -59,7 +59,7 @@ public class ManageMedicationActivity extends Activity
 		initAutoComplete();
 		initInventoryCard();
 		initScheduleCard();
-		initInfoCard();
+		//initInfoCard();
 	}
 
 	private void initAutoComplete()
@@ -191,6 +191,9 @@ public class ManageMedicationActivity extends Activity
 
 	class DosageTypeSpinnerAdapter extends ArrayAdapter<String>
 	{
+		String[] unitsReadable;
+		String[] units;
+
 		LayoutInflater inflater;
 		int preferredHeight;
 
@@ -199,12 +202,14 @@ public class ManageMedicationActivity extends Activity
 			super(context, textViewResourceId);
 			this.inflater = LayoutInflater.from(context);
 			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
+			this.unitsReadable = context.getResources().getStringArray(R.array.units_readable);
+			this.units = context.getResources().getStringArray(R.array.units);
 		}
 
 		@Override
 		public int getCount()
 		{
-			return 1;
+			return unitsReadable.length;
 		}
 
 		@Override
@@ -212,7 +217,7 @@ public class ManageMedicationActivity extends Activity
 		{
 			TextView view = (TextView) inflater.inflate(R.layout.sherlock_spinner_dropdown_item, null);
 			view.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
-			view.setText("Micrograms (μg)");
+			view.setText(unitsReadable[position]);
 
 			return view;
 		}
@@ -220,11 +225,24 @@ public class ManageMedicationActivity extends Activity
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent)
 		{
-			TextView view = (TextView) inflater.inflate(R.layout.sherlock_spinner_dropdown_item, null);
-			view.setBackgroundResource(R.color.card_background);
-			view.setHeight(preferredHeight);
+			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_dosages_units, null);
 
-			view.setText("Micrograms (μg)");
+			TextView tvUnitReadable = (TextView) view.findViewById(R.id.tvUnitReadable);
+			tvUnitReadable.setText(unitsReadable[position]);
+
+			TextView tvUnit = (TextView) view.findViewById(R.id.tvUnit);
+			View vwSeparator = view.findViewById(R.id.vwSeparator);
+			if(units[position].equals("."))
+			{
+				tvUnit.setVisibility(View.GONE);
+				vwSeparator.setVisibility(View.GONE);
+			}
+			else
+			{
+				vwSeparator.setVisibility(View.VISIBLE);
+				tvUnit.setVisibility(View.VISIBLE);
+				tvUnit.setText(units[position]);
+			}
 
 			return view;
 		}

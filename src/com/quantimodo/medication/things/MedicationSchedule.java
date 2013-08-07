@@ -6,8 +6,9 @@ import java.util.UUID;
 public class MedicationSchedule
 {
 	public static final int TYPE_DAILY = 0;
-	public static final int TYPE_WEEKLY = 1;
-	public static final int TYPE_MONTHLY = 2;
+	public static final int TYPE_X_DAYS= 1;
+	public static final int TYPE_WEEKLY = 2;
+	public static final int TYPE_MONTHLY = 3;
 
 	public final String id;             // Primary
 

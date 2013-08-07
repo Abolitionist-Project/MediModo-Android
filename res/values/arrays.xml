@@ -2,8 +2,26 @@
 <resources>
     <string-array name="scheduleTypes">
         <item>@string/scheduletype_daily</item>
+        <item>@string/scheduletype_xdays</item>
         <item>@string/scheduletype_weekly</item>
         <item>@string/scheduletype_monthly</item>
     </string-array>
 
+    <string-array name="units_readable">
+        <item>@string/unit_mg</item>
+        <item>@string/unit_ug</item>
+        <item>@string/unit_g</item>
+        <item>@string/unit_drops</item>
+        <item>@string/unit_stabs</item>
+        <item>@string/unit_things</item>
+    </string-array>
+
+    <string-array name="units">
+        <item>mg</item>
+        <item>µg</item>
+        <item>g</item>
+        <item>.</item>
+        <item>.</item>
+        <item>.</item>
+    </string-array>
 </resources>

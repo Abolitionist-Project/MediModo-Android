@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
+import android.widget.ViewFlipper;
 import com.quantimodo.medication.R;
 import com.quantimodo.medication.Utils;
 import com.quantimodo.medication.things.MedicationSchedule;
@@ -20,6 +22,8 @@ public class SetScheduleDialog
 	private AlertDialog alert;
 	private View view;
 
+	//private LinearLayout lnInterval;
+	private ViewFlipper viewFlipper;
 	private CheckBox[] cbDays = new CheckBox[8];
 	private Spinner spScheduleType;
 
@@ -29,6 +33,10 @@ public class SetScheduleDialog
 	{
 		this.context = context;
 		this.view = LayoutInflater.from(context).inflate(R.layout.dialog_setschedule, null);
+		this.viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
+		this.viewFlipper.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
+		this.viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right));
+		//this.lnInterval = (LinearLayout) view.findViewById(R.id.lnInterval);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
@@ -107,13 +115,38 @@ public class SetScheduleDialog
 			switch(position)
 			{
 			case MedicationSchedule.TYPE_DAILY:
-				for(CheckBox checkBox : cbDays)
+				for(int i = 0; i < cbDays.length; i++)
 				{
-					checkBox.setChecked(true);
+					cbDays[i].setChecked(true);
+					if(i > 0)
+					{
+						cbDays[i].setEnabled(false);
+					}
+				}
+				if(viewFlipper.getDisplayedChild() != 0)
+				{
+					viewFlipper.setDisplayedChild(0);
 				}
 				break;
 			case MedicationSchedule.TYPE_WEEKLY:
-				cbDays[0].setChecked(false);
+				for(int i = 0; i < cbDays.length; i++)
+				{
+					if(i == 0)
+					{
+						cbDays[i].setChecked(false);
+					}
+					else
+					{
+						cbDays[i].setEnabled(true);
+					}
+				}
+				if(viewFlipper.getDisplayedChild() != 0)
+				{
+					viewFlipper.setDisplayedChild(0);
+				}
+				break;
+			case MedicationSchedule.TYPE_MONTHLY:
+				viewFlipper.setDisplayedChild(1);
 				break;
 			}
 
@@ -183,11 +216,10 @@ public class SetScheduleDialog
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent)
 		{
-			TextView view = (TextView) inflater.inflate(R.layout.sherlock_spinner_dropdown_item, null);
-			view.setBackgroundResource(R.color.card_background);
-			view.setHeight(preferredHeight);
+			View view = inflater.inflate(R.layout.dialog_setschedule_types, null);
+			TextView tvScheduleType = (TextView) view.findViewById(R.id.tvScheduleType);;
 
-			view.setText(strings[position]);
+			tvScheduleType.setText(strings[position]);
 
 			return view;
 		}
