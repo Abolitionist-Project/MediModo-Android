@@ -7,6 +7,17 @@
         <item>@string/scheduletype_monthly</item>
     </string-array>
 
+    <string-array name="startDays">
+        <item>@string/day_today</item>
+        <item>@string/day_monday_next</item>
+        <item>@string/day_tuesday_next</item>
+        <item>@string/day_wednesday_next</item>
+        <item>@string/day_thursday_next</item>
+        <item>@string/day_friday_next</item>
+        <item>@string/day_saturday_next</item>
+        <item>@string/day_sunday_next</item>
+    </string-array>
+
     <string-array name="units_readable">
         <item>@string/unit_mg</item>
         <item>@string/unit_ug</item>

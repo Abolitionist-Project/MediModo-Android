@@ -35,6 +35,15 @@
     <string name="day_saturday">Saturday</string>
     <string name="day_sunday">Sunday</string>
 
+    <string name="day_today">Today</string>
+    <string name="day_monday_next">Next Monday</string>
+    <string name="day_tuesday_next">Next Tuesday</string>
+    <string name="day_wednesday_next">Next Wednesday</string>
+    <string name="day_thursday_next">Next Thursday</string>
+    <string name="day_friday_next">Next Friday</string>
+    <string name="day_saturday_next">Next Saturday</string>
+    <string name="day_sunday_next">Next Sunday</string>
+
     <string name="unit_mg">Milligrams</string>
     <string name="unit_ug">Micrograms</string>
     <string name="unit_g">Grams</string>
