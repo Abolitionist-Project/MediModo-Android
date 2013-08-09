@@ -412,25 +412,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp">
-
-                <org.holoeverywhere.widget.CheckBox
-                        android:id="@+id/cbEveryDay"
-                        android:layout_width="0dp"
+                <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:checked="true"
-                        android:text="@string/day_every"/>
+                        android:text="Skip: "/>
+                <org.holoeverywhere.widget.EditText
+                    android:id="@+id/etSkip"
+                    android:layout_width="98dp"
+                    android:layout_height="48dp"
+                    android:imeOptions="actionDone"
+                    android:hint="x days"
+                    android:inputType="numberSigned"/>
             </TableRow>
             <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp">
-
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Skip 7 days, every 21 days."/>
+                        android:text="Every: "/>
+                <org.holoeverywhere.widget.EditText
+                        android:id="@+id/etSkip"
+                        android:layout_width="98dp"
+                        android:layout_height="48dp"
+                        android:imeOptions="actionDone"
+                        android:hint="x days"
+                        android:inputType="numberSigned"/>
             </TableRow>
+
         </TableLayout>
 
     </ViewFlipper>

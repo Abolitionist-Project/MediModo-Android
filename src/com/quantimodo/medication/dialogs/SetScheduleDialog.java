@@ -187,17 +187,9 @@ public class SetScheduleDialog
 			switch(position)
 			{
 			case MedicationSchedule.TYPE_DAILY:
-				for(int i = 0; i < cbDays.length; i++)
+				if(viewFlipper.getDisplayedChild() != 3)
 				{
-					cbDays[i].setChecked(true);
-					if(i > 0)
-					{
-						cbDays[i].setEnabled(false);
-					}
-				}
-				if(viewFlipper.getDisplayedChild() != 0)
-				{
-					viewFlipper.setDisplayedChild(0);
+					viewFlipper.setDisplayedChild(3);
 				}
 				break;
 			case MedicationSchedule.TYPE_WEEKLY:
