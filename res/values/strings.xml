@@ -11,20 +11,23 @@
 
     <string name="managemedication_title">Medication info</string>
     <string name="managemedication_Dosages">Dosages</string>
-    <string name="managemedication_dosages_add">Add new</string>
+    <string name="managemedication_dosages_add">Add dose</string>
     <string name="managemedication_dosages_strength">Strength</string>
     <string name="managemedication_dosages_quantity">Qty</string>
     <string name="managemedication_info">Information</string>
     <string name="managemedication_schedule">Schedule</string>
-    <string name="managemedication_schedule_add">Tap to setup your schedule</string>
+    <string name="managemedication_schedule_edit">Daily, tap to change schedule</string>
+    <string name="managemedication_schedule_addTime">Add time</string>
+    <string name="managemedication_schedule_take">take</string>
     <string name="managemedication_usage">Usage instructions</string>
     <string name="managemedication_sidefx">Side effects</string>
     <string name="managemedication_medname_hint">Medication name</string>
 
+    <string name="setschedule_title">Remind me every</string>
     <string name="scheduletype_daily">Daily</string>
     <string name="scheduletype_xdays">Every x days</string>
     <string name="scheduletype_weekly">Weekly</string>
-    <string name="scheduletype_monthly">Monthly</string>
+    <string name="scheduletype_monthly">Months</string>
 
     <string name="day_every">Every day</string>
     <string name="day_monday">Monday</string>
@@ -44,12 +47,12 @@
     <string name="day_saturday_next">Next Saturday</string>
     <string name="day_sunday_next">Next Sunday</string>
 
-    <string name="unit_mg">Milligrams</string>
-    <string name="unit_ug">Micrograms</string>
-    <string name="unit_g">Grams</string>
-    <string name="unit_drops">Drops</string>
-    <string name="unit_stabs">Stabs</string>
-    <string name="unit_things">Things</string>
+    <string name="unit_milligram">Milligrams</string>
+    <string name="unit_microgram">Micrograms</string>
+    <string name="unit_gram">Grams</string>
+    <string name="unit_drop">Drops</string>
+    <string name="unit_stab">Stabs</string>
+    <string name="unit_thing">Things</string>
 
     <string name="days_lowerc">days</string>
 </resources>

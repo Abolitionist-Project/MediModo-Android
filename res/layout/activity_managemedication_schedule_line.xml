@@ -6,26 +6,37 @@
     android:paddingRight="12dp">
 
     <org.holoeverywhere.widget.EditText
-        android:id="@+id/etDosageStrength"
-        android:layout_width="102dp"
+        android:id="@+id/etScheduleTime"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginRight="12dp"
-        android:hint="@string/managemedication_dosages_strength"
+        android:layout_marginRight="4dp"
+        android:hint="8:00"
         android:imeOptions="actionDone"
         android:inputType="numberSigned"/>
+    <org.holoeverywhere.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginRight="4dp"
+        android:text="@string/managemedication_schedule_take"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textColor="@color/light_gray"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"/>
     <org.holoeverywhere.widget.Spinner
-        android:id="@+id/spDosageUnit"
-        android:layout_width="0dp"
+        android:id="@+id/spDosage"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
         android:paddingRight="8dp"
         android:layout_height="48dp"/>
     <ImageButton
-        android:id="@+id/btRemoveDose"
+        android:id="@+id/btRemoveTime"
         android:layout_width="44dp"
         android:layout_height="46dp"
         android:layout_marginLeft="8dp"
         android:paddingTop="10dp"
         android:src="@drawable/ic_action_cancel_dark"
-        android:background="@drawable/selector" />
+        android:background="@drawable/selector"
+        android:layout_gravity="right"/>
 
 </org.holoeverywhere.widget.LinearLayout>

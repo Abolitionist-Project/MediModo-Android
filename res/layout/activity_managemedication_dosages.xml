@@ -18,7 +18,7 @@
 
     <org.holoeverywhere.widget.EditText
         android:id="@+id/btAddNew"
-        android:layout_width="98dp"
+        android:layout_width="102dp"
         android:layout_height="48dp"
         android:layout_marginLeft="12dp"
         android:hint="@string/managemedication_dosages_add"

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.TableLayout;
@@ -26,7 +25,6 @@ public class SetScheduleDialog
 {
 	private Context context;
 
-	private AlertDialog alert;
 	private View view;
 
 	//private LinearLayout lnInterval;
@@ -51,7 +49,8 @@ public class SetScheduleDialog
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
 		builder.setCancelable(true);
-		//builder.setTitle(R.string.managemedication_schedule);
+		builder.setInverseBackgroundForced(true);
+		builder.setTitle(R.string.setschedule_title);
 
 		builder.setOnCancelListener(new DialogInterface.OnCancelListener()
 		{
@@ -86,8 +85,8 @@ public class SetScheduleDialog
         initDaySpinner();
         initNumberPicker();
 
-		alert = builder.create();
-        alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		AlertDialog alert = builder.create();
+        //alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		alert.show();
 	}
 
@@ -174,6 +173,7 @@ public class SetScheduleDialog
         NumberPicker np = (NumberPicker) view.findViewById(R.id.np);
         np.setMaxValue(nums.length);
         np.setMinValue(1);
+	    np.setValue(2);
         np.setWrapSelectorWheel(false);
         np.setDisplayedValues(nums);
 

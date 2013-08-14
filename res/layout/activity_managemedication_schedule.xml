@@ -22,7 +22,17 @@
         android:layout_height="48dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:hint="@string/managemedication_schedule_add"
+        android:hint="@string/managemedication_schedule_edit"
+        android:inputType="none"
+        android:focusable="false"
+        android:background="@drawable/edittext_selector"/>
+
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/btAddNew"
+        android:layout_width="102dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="12dp"
+        android:hint="@string/managemedication_schedule_addTime"
         android:inputType="none"
         android:focusable="false"
         android:background="@drawable/edittext_selector"/>

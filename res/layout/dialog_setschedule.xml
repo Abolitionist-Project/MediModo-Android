@@ -7,11 +7,20 @@
     android:paddingRight="12dp"
     android:orientation="vertical">
 
-    <org.holoeverywhere.widget.Spinner
-        android:id="@+id/spScheduleType"
+    <LinearLayout
         android:layout_width="match_parent"
-        style="@style/spinner_style"
-        android:layout_height="65dp"/>
+        android:layout_height="wrap_content">
+        <org.holoeverywhere.widget.Spinner
+            android:id="@+id/spInterval"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            style="@style/spinner_style"/>
+        <org.holoeverywhere.widget.Spinner
+            android:id="@+id/spScheduleType"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            style="@style/spinner_style"/>
+    </LinearLayout>
 
 <!--
     <LinearLayout
