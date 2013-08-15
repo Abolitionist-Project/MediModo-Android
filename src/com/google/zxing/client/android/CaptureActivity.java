@@ -186,7 +186,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 		switch (keyCode)
 		{
 		case KeyEvent.KEYCODE_BACK:
-			if ( lastResult != null)
+			if (lastResult != null)
 			{
 				restartPreviewAfterDelay(0L);
 				return true;

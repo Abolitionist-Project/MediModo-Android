@@ -100,7 +100,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		});
 
 		AlertDialog alert = builder.create();
-        //alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		alert.setOnDismissListener(this);
 		alert.show();
 	}
@@ -110,7 +110,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 	{
 		MedicationSchedule schedule;
 
-		switch(spScheduleType.getSelectedItemPosition())
+		switch (spScheduleType.getSelectedItemPosition())
 		{
 		case MedicationSchedule.TYPE_DAILY:
 			break;
@@ -130,7 +130,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		spScheduleType.setOnItemSelectedListener(onScheduleTypeSelectedListener);
 
 		String[] intervals = new String[99];
-		for(int i = 1; i < 100; i++)
+		for (int i = 1; i < 100; i++)
 		{
 			intervals[i - 1] = String.valueOf(i);
 		}
@@ -158,83 +158,83 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		cbDays[6].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);*/
 	}
 
-    private void initCalendar()
-    {
-        Calendar calendar = Calendar.getInstance();
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+	private void initCalendar()
+	{
+		Calendar calendar = Calendar.getInstance();
+		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-        selectedCalendarDays = new HashMap<Integer, Boolean>();
-        TableLayout tableLayout = (TableLayout) view.findViewById(R.id.vwMonthly);
-        int totalViews = 0;
+		selectedCalendarDays = new HashMap<Integer, Boolean>();
+		TableLayout tableLayout = (TableLayout) view.findViewById(R.id.vwMonthly);
+		int totalViews = 0;
 
-	    int buttonDimens = Utils.convertDpToPixel(40, context.getResources());
-	    TableRow.LayoutParams buttonLayoutParams = new TableRow.LayoutParams(buttonDimens, buttonDimens);
+		int buttonDimens = Utils.convertDpToPixel(40, context.getResources());
+		TableRow.LayoutParams buttonLayoutParams = new TableRow.LayoutParams(buttonDimens, buttonDimens);
 
 
-        for(int rowNum = 0; rowNum < 5; rowNum++)
-        {
-            ViewGroup currentGroup = (ViewGroup) tableLayout.getChildAt(rowNum);
-            for(int viewNum = 0; viewNum < 13; viewNum++)
-            {
-	            if(viewNum % 2 == 0)
-	            {
-		            totalViews++;
-		            if(totalViews > 31)
-		            {
-			            View view = new View(context);
-			            TableRow.LayoutParams params = new TableRow.LayoutParams(buttonDimens, buttonDimens);
-			            params.column = viewNum;
-			            currentGroup.addView(view);
-		            }
-		            else
-		            {
-			            Button newButton = new Button(context);
-			            TableRow.LayoutParams params = new TableRow.LayoutParams(buttonDimens, buttonDimens);
-			            params.column = viewNum;
+		for (int rowNum = 0; rowNum < 5; rowNum++)
+		{
+			ViewGroup currentGroup = (ViewGroup) tableLayout.getChildAt(rowNum);
+			for (int viewNum = 0; viewNum < 13; viewNum++)
+			{
+				if (viewNum % 2 == 0)
+				{
+					totalViews++;
+					if (totalViews > 31)
+					{
+						View view = new View(context);
+						TableRow.LayoutParams params = new TableRow.LayoutParams(buttonDimens, buttonDimens);
+						params.column = viewNum;
+						currentGroup.addView(view);
+					}
+					else
+					{
+						Button newButton = new Button(context);
+						TableRow.LayoutParams params = new TableRow.LayoutParams(buttonDimens, buttonDimens);
+						params.column = viewNum;
 
-			            newButton.setLayoutParams(params);
-			            newButton.setLayoutParams(buttonLayoutParams);
-			            newButton.setText(String.valueOf(totalViews));
-			            newButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-			            newButton.setOnClickListener(onCalendarDayClickedListener);
+						newButton.setLayoutParams(params);
+						newButton.setLayoutParams(buttonLayoutParams);
+						newButton.setText(String.valueOf(totalViews));
+						newButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
+						newButton.setOnClickListener(onCalendarDayClickedListener);
 
-			            if(dayOfMonth == totalViews)
-			            {
-				            newButton.setBackgroundResource(R.drawable.selector_reddotbg);
-				            newButton.setTextColor(context.getResources().getColor(android.R.color.white));
-				            selectedCalendarDays.put(totalViews, true);
-			            }
-			            else
-			            {
-				            newButton.setTextColor(context.getResources().getColor(android.R.color.black));
-				            newButton.setBackgroundResource(R.drawable.selector);
-			            }
+						if (dayOfMonth == totalViews)
+						{
+							newButton.setBackgroundResource(R.drawable.selector_reddotbg);
+							newButton.setTextColor(context.getResources().getColor(android.R.color.white));
+							selectedCalendarDays.put(totalViews, true);
+						}
+						else
+						{
+							newButton.setTextColor(context.getResources().getColor(android.R.color.black));
+							newButton.setBackgroundResource(R.drawable.selector);
+						}
 
-			            currentGroup.addView(newButton);
-		            }
-	            }
-	            else
-	            {
-		            View view = new View(context);
-		            TableRow.LayoutParams params = new TableRow.LayoutParams(0, 1);
-		            params.column = viewNum;
-		            params.weight = 1;
-		            view.setLayoutParams(params);
-		            currentGroup.addView(view);
-	            }
-            }
-        }
-    }
+						currentGroup.addView(newButton);
+					}
+				}
+				else
+				{
+					View view = new View(context);
+					TableRow.LayoutParams params = new TableRow.LayoutParams(0, 1);
+					params.column = viewNum;
+					params.weight = 1;
+					view.setLayoutParams(params);
+					currentGroup.addView(view);
+				}
+			}
+		}
+	}
 
 	AdapterView.OnItemSelectedListener onScheduleTypeSelectedListener = new AdapterView.OnItemSelectedListener()
 	{
 		@Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			if(viewFlipper.getDisplayedChild() != position)
+			if (viewFlipper.getDisplayedChild() != position)
 			{
 				viewFlipper.setDisplayedChild(position);
 
-				if(spScheduleInterval.getSelectedItemPosition() == 0)
+				if (spScheduleInterval.getSelectedItemPosition() == 0)
 				{
 					spScheduleTypeSelected.setText(scheduleTypes[spScheduleType.getSelectedItemPosition()]);
 				}
@@ -253,6 +253,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 
 
 		}
+
 		@Override public void onNothingSelected(AdapterView<?> parent)
 		{
 		}
@@ -262,7 +263,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 	{
 		@Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 		{
-			if(position == 0)
+			if (position == 0)
 			{
 				spScheduleTypeSelected.setText(scheduleTypes[spScheduleType.getSelectedItemPosition()]);
 			}
@@ -271,32 +272,34 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 				spScheduleTypeSelected.setText(scheduleTypesPlural[spScheduleType.getSelectedItemPosition()]);
 			}
 		}
+
 		@Override public void onNothingSelected(AdapterView<?> parent)
 		{
 		}
 	};
 
-    View.OnClickListener onCalendarDayClickedListener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View view) {
-            Button button = (Button) view;
-            int buttonNumber = Integer.parseInt(button.getText().toString());
-            if(selectedCalendarDays.get(buttonNumber) == null)
-            {
-                view.setBackgroundResource(R.drawable.selector_reddotbg);
-                ((Button) view).setTextColor(Color.parseColor("#FFFFFF"));
-                selectedCalendarDays.put(buttonNumber, true);
-            }
-            else if(selectedCalendarDays.get(buttonNumber))
-            {
-                view.setBackgroundResource(R.drawable.selector);
-                ((Button) view).setTextColor(Color.parseColor("#000000"));
-                selectedCalendarDays.remove(buttonNumber);
-            }
-        }
+	View.OnClickListener onCalendarDayClickedListener = new View.OnClickListener()
+	{
+		@Override
+		public void onClick(View view)
+		{
+			Button button = (Button) view;
+			int buttonNumber = Integer.parseInt(button.getText().toString());
+			if (selectedCalendarDays.get(buttonNumber) == null)
+			{
+				view.setBackgroundResource(R.drawable.selector_reddotbg);
+				((Button) view).setTextColor(Color.parseColor("#FFFFFF"));
+				selectedCalendarDays.put(buttonNumber, true);
+			}
+			else if (selectedCalendarDays.get(buttonNumber))
+			{
+				view.setBackgroundResource(R.drawable.selector);
+				((Button) view).setTextColor(Color.parseColor("#000000"));
+				selectedCalendarDays.remove(buttonNumber);
+			}
+		}
 
-    };
+	};
 
 	class ScheduleTypeSpinnerAdapter extends ArrayAdapter<String>
 	{
@@ -311,7 +314,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 			this.preferredHeight = Utils.convertDpToPixel(48, context.getResources());
 
 			Resources res = context.getResources();
-			if(scheduleTypes == null || scheduleTypesPlural == null)    // Cache strings to prevent choppy animations
+			if (scheduleTypes == null || scheduleTypesPlural == null)    // Cache strings to prevent choppy animations
 			{
 				scheduleTypes = new String[3];
 				scheduleTypesPlural = new String[3];
@@ -345,7 +348,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		{
 			View view = inflater.inflate(R.layout.dialog_setschedule_types, null);
 			TextView tvScheduleType = (TextView) view.findViewById(R.id.tvScheduleType);
-			if(spScheduleInterval.getSelectedItemPosition() == 0)
+			if (spScheduleInterval.getSelectedItemPosition() == 0)
 			{
 				tvScheduleType.setText(scheduleTypes[position]);
 			}
@@ -377,7 +380,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 			view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			view.setTextColor(context.getResources().getColor(R.color.card_title));
 			view.setPadding(Utils.convertDpToPixel(8, context.getResources()), 0, 0, 0);
-			if(position == 0)
+			if (position == 0)
 			{
 				view.setText("Every");
 			}

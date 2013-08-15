@@ -16,11 +16,11 @@ public class MedicationReminder
 
 	public MedicationReminder(int hour, int minute, MedicationDose dose)
 	{
-		if(hour < 0 || hour > 23)
+		if (hour < 0 || hour > 23)
 		{
 			throw new IllegalArgumentException("\"hour\" must be positive and lower than 24");
 		}
-		if(minute < 0 || minute > 59)
+		if (minute < 0 || minute > 59)
 		{
 			throw new IllegalArgumentException("\"minute\" must be positive and lower than 60");
 		}
@@ -34,7 +34,7 @@ public class MedicationReminder
 	public String getHumanReadableTime(Context context)
 	{
 		String minuteString;
-		if(minute < 10)
+		if (minute < 10)
 		{
 			minuteString = "0" + minute;
 		}
@@ -44,11 +44,11 @@ public class MedicationReminder
 		}
 		if (!DateFormat.is24HourFormat(context))
 		{
-			if(hour == 12)
+			if (hour == 12)
 			{
 				return hour + ":" + minuteString + " pm";
 			}
-			else if(hour > 12)
+			else if (hour > 12)
 			{
 				return (hour - 12) + ":" + minuteString + " pm";
 			}
@@ -59,7 +59,7 @@ public class MedicationReminder
 		}
 		else
 		{
-			if(hour < 10)
+			if (hour < 10)
 			{
 				return "0" + hour + ":" + minuteString;
 			}

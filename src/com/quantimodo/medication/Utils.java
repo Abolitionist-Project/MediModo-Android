@@ -55,12 +55,13 @@ public class Utils
 		};
 
 		a.setDuration((int) (targtetHeight / v.getContext().getResources().getDisplayMetrics().density) * 3);
-		if(listener != null)
+		if (listener != null)
 		{
 			a.setAnimationListener(listener);
 		}
 		v.startAnimation(a);
 	}
+
 	public static void collapseView(final View v, Animation.AnimationListener listener)
 	{
 		final int initialHeight = v.getMeasuredHeight();
@@ -89,7 +90,7 @@ public class Utils
 		};
 
 		a.setDuration((int) (initialHeight / v.getContext().getResources().getDisplayMetrics().density) * 3);
-		if(listener != null)
+		if (listener != null)
 		{
 			a.setAnimationListener(listener);
 		}

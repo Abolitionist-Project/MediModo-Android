@@ -13,8 +13,7 @@ public class DailySchedule extends MedicationSchedule
 		Log.i("New dailyschedule");
 	}
 
-	@Override
-	Date getNextReminder()
+	@Override Date getNextReminder()
 	{
 		return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}

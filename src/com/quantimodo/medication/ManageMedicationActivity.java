@@ -65,7 +65,7 @@ public class ManageMedicationActivity extends Activity
 			}
 		});
 
-		if(savedInstanceState == null)
+		if (savedInstanceState == null)
 		{
 			medication = new Medication(null);
 			medication.dosages.add(new MedicationDose(null, -1, null));
@@ -141,9 +141,9 @@ public class ManageMedicationActivity extends Activity
 			}
 		});
 
-		for(int i = 0; i < medication.dosages.size(); i++)
+		for (int i = 0; i < medication.dosages.size(); i++)
 		{
-			if(i == 0)
+			if (i == 0)
 			{
 				addDosageLine(medication.dosages.get(i), true, false);
 			}
@@ -193,9 +193,9 @@ public class ManageMedicationActivity extends Activity
 			}
 		});
 
-		for(int i = 0; i < medication.schedule.reminders.size(); i++)
+		for (int i = 0; i < medication.schedule.reminders.size(); i++)
 		{
-			if(i == 0)
+			if (i == 0)
 			{
 				addScheduleLine(medication.schedule.reminders.get(i), true, false);
 			}
@@ -229,11 +229,11 @@ public class ManageMedicationActivity extends Activity
 		DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this);
 		spDosageUnit.setAdapter(adapter);
 
-		if(dose.value != -1)
+		if (dose.value != -1)
 		{
 			etDosageStrength.setText(String.valueOf(dose.value));
 		}
-		if(dose.unit != null)
+		if (dose.unit != null)
 		{
 			spDosageUnit.setSelection(MedicationDose.unitToPosition(dose.unit));
 		}
@@ -267,18 +267,20 @@ public class ManageMedicationActivity extends Activity
 			@Override public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3)
 			{
 			}
+
 			@Override public void onTextChanged(CharSequence charSequence, int i, int i2, int i3)
 			{
 			}
+
 			@Override public void afterTextChanged(Editable editable)
 			{
-				if(editable.length() > 0)
+				if (editable.length() > 0)
 				{
 					try
 					{
 						dose.value = Integer.valueOf(editable.toString());
 					}
-					catch(NumberFormatException e)
+					catch (NumberFormatException e)
 					{
 						Toast.makeText(ManageMedicationActivity.this, "Invalid number", Toast.LENGTH_SHORT).show();
 					}
@@ -299,6 +301,7 @@ public class ManageMedicationActivity extends Activity
 				updateDosageSelectAdapters(dose, false);
 				etDosageStrength.requestFocus();
 			}
+
 			@Override public void onNothingSelected(AdapterView<?> parent)
 			{
 			}
@@ -306,15 +309,15 @@ public class ManageMedicationActivity extends Activity
 
 		lnDosageCard.addView(newDosageLine, lnDosageCard.getChildCount() - 2);
 
-		if(!canRemove)
+		if (!canRemove)
 		{
 			btRemoveDose.setVisibility(View.INVISIBLE);
 		}
-		if(!isFirst)
+		if (!isFirst)
 		{
 			Utils.expandView(newDosageLine, null);
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 			etDosageStrength.requestFocus();
 		}
 	}
@@ -333,7 +336,7 @@ public class ManageMedicationActivity extends Activity
 		dosageSelectSpinnerAdapters.add(adapter);
 
 		btScheduleTime.setText(reminder.getHumanReadableTime(this));
-		if(reminder.dose != null)
+		if (reminder.dose != null)
 		{
 			spDosage.setSelection(medication.dosages.indexOf(reminder.dose));
 		}
@@ -389,6 +392,7 @@ public class ManageMedicationActivity extends Activity
 				reminder.dose = selectedDose;
 				adapter.selectedView.setText(selectedDose.value + " " + selectedDose.getHumanReadableUnit(getResources()));
 			}
+
 			@Override public void onNothingSelected(AdapterView<?> parent)
 			{
 			}
@@ -396,11 +400,11 @@ public class ManageMedicationActivity extends Activity
 
 		lnScheduleCard.addView(newTimeLine, lnScheduleCard.getChildCount() - 2);
 
-		if(!canRemove)
+		if (!canRemove)
 		{
 			btRemoveTime.setVisibility(View.INVISIBLE);
 		}
-		if(!isFirst)
+		if (!isFirst)
 		{
 			Utils.expandView(newTimeLine, null);
 		}
@@ -408,17 +412,17 @@ public class ManageMedicationActivity extends Activity
 
 	private void updateDosageSelectAdapters(MedicationDose updatedDose, boolean wasRemoved)
 	{
-		for(int i = 0; i < dosageSelectSpinners.size(); i++)
+		for (int i = 0; i < dosageSelectSpinners.size(); i++)
 		{
 			Spinner dosageSelectSpinner = dosageSelectSpinners.get(i);
 			DosageSelectSpinnerAdapter adapter = dosageSelectSpinnerAdapters.get(i);
 			MedicationDose dose = medication.dosages.get(dosageSelectSpinner.getSelectedItemPosition());
 
-			if(dose.equals(updatedDose))
+			if (dose.equals(updatedDose))
 			{
-				if(wasRemoved)
+				if (wasRemoved)
 				{
-					if(medication.dosages.indexOf(updatedDose) == 0)
+					if (medication.dosages.indexOf(updatedDose) == 0)
 					{
 						adapter.selectedView.setText(medication.dosages.get(1).value + " " + medication.dosages.get(1).getHumanReadableUnit(getResources()));
 					}
@@ -443,8 +447,6 @@ public class ManageMedicationActivity extends Activity
 		intent.putExtra("SCAN_MODE", "QR_CODE_MODE, PRODUCT_MODE");
 		startActivityForResult(intent, 0);
 	}
-
-
 
 
 	class DosageTypeSpinnerAdapter extends ArrayAdapter<String>
@@ -490,7 +492,7 @@ public class ManageMedicationActivity extends Activity
 
 			TextView tvUnit = (TextView) view.findViewById(R.id.tvUnit);
 			View vwSeparator = view.findViewById(R.id.vwSeparator);
-			if(units[position].equals("."))
+			if (units[position].equals("."))
 			{
 				tvUnit.setVisibility(View.GONE);
 				vwSeparator.setVisibility(View.GONE);
@@ -570,6 +572,7 @@ public class ManageMedicationActivity extends Activity
 	};
 
 	HttpGet autoCompleteGetRequest;
+
 	private void updateAutoCompleteAdapter()
 	{
 		final Handler handler = new Handler();
@@ -579,7 +582,7 @@ public class ManageMedicationActivity extends Activity
 			@Override public void run()
 			{
 				HttpClient client = new DefaultHttpClient();
-				if(autoCompleteGetRequest != null)
+				if (autoCompleteGetRequest != null)
 				{
 					autoCompleteGetRequest.abort();
 				}
@@ -614,15 +617,15 @@ public class ManageMedicationActivity extends Activity
 								{
 									String newMed = gsonReader.nextString();
 									boolean contains = false;
-									for(String currentString : strings)
+									for (String currentString : strings)
 									{
-										if(currentString.equalsIgnoreCase(newMed))
+										if (currentString.equalsIgnoreCase(newMed))
 										{
 											contains = true;
 											break;
 										}
 									}
-									if(!contains)
+									if (!contains)
 									{
 										strings.add(newMed);
 									}
@@ -648,14 +651,14 @@ public class ManageMedicationActivity extends Activity
 						@Override public void run()
 						{
 							autoCompleteAdapter.clear();
-							if(Build.VERSION.SDK_INT >= 11)
+							if (Build.VERSION.SDK_INT >= 11)
 							{
 								autoCompleteAdapter.addAll(strings);
 							}
 							else
 							{
 								autoCompleteAdapter.setNotifyOnChange(false);
-								for(String string : strings)
+								for (String string : strings)
 								{
 									autoCompleteAdapter.add(string);
 								}
