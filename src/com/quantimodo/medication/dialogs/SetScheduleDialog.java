@@ -145,11 +145,11 @@ public class SetScheduleDialog
 		spScheduleInterval.setAdapter(spScheduleIntervalAdapter);
 		if(currentSchedule.interval < 1)
 		{
-			spScheduleInterval.setSelection(currentSchedule.interval - 1);
+			spScheduleInterval.setSelection(0);
 		}
 		else
 		{
-			spScheduleInterval.setSelection(0);
+			spScheduleInterval.setSelection(currentSchedule.interval - 1);
 		}
 		spScheduleInterval.setOnItemSelectedListener(onScheduleIntervalSelectedListener);
 

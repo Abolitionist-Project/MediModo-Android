@@ -41,7 +41,6 @@
         <item quantity="other">Months</item>
     </plurals>
 
-    <string name="day_every">Every day</string>
     <string name="day_monday">Monday</string>
     <string name="day_tuesday">Tuesday</string>
     <string name="day_wednesday">Wednesday</string>

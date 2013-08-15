@@ -20,6 +20,7 @@ import com.quantimodo.medication.dialogs.SetScheduleDialog;
 import com.quantimodo.medication.things.Medication;
 import com.quantimodo.medication.things.MedicationDose;
 import com.quantimodo.medication.things.MedicationReminder;
+import com.quantimodo.medication.things.MedicationSchedule;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -172,11 +173,15 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				new SetScheduleDialog().show(ManageMedicationActivity.this, null, new SetScheduleDialog.OnScheduleEditedListener()
+				new SetScheduleDialog().show(ManageMedicationActivity.this, medication.schedule, new SetScheduleDialog.OnScheduleEditedListener()
 				{
-					@Override public void onEdited()
+					@Override public void onEdited(MedicationSchedule newSchedule)
 					{
+						medication.schedule.type = newSchedule.type;
+						medication.schedule.interval = newSchedule.interval;
+						medication.schedule.enabledDays = newSchedule.enabledDays;
 
+						btSetSchedule.setText(medication.schedule.getHumanReadableDescription());
 					}
 				});
 			}

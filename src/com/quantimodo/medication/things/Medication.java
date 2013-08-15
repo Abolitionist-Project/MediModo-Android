@@ -1,8 +1,5 @@
 package com.quantimodo.medication.things;
 
-import com.quantimodo.medication.things.schedule.DailySchedule;
-import com.quantimodo.medication.things.schedule.MedicationSchedule;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +22,7 @@ public class Medication
 		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.dosages = new ArrayList<MedicationDose>();
-		this.schedule = new DailySchedule();
+		this.schedule = new MedicationSchedule(MedicationSchedule.TYPE_DAILY);
 	}
 
 	/*
