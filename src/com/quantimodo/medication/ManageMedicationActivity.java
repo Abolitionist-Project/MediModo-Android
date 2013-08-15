@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -16,13 +17,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.google.gson.stream.JsonReader;
 import com.google.zxing.client.android.CaptureActivity;
 import com.quantimodo.medication.dialogs.SetScheduleDialog;
+import com.quantimodo.medication.things.Medication;
 import com.quantimodo.medication.things.MedicationDose;
+import com.quantimodo.medication.things.MedicationReminder;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.Activity;
+import org.holoeverywhere.app.TimePickerDialog;
 import org.holoeverywhere.widget.*;
 
 import java.io.BufferedReader;
@@ -33,15 +37,15 @@ import java.util.ArrayList;
 public class ManageMedicationActivity extends Activity
 {
 	private LinearLayout linearLayout;
-	AutoCompleteTextView tvMedicationName;
-	LinearLayout lnDosageCard;
-	LinearLayout lnScheduleCard;
-	EditText btAddNewSchedule;
-	ArrayList<DosageSelectSpinnerAdapter> dosageSelectAdapters;
+	private AutoCompleteTextView tvMedicationName;
+	private LinearLayout lnDosageCard;
+	private LinearLayout lnScheduleCard;
+	private ArrayList<Spinner> dosageSelectSpinners;
 
+	private ArrayList<DosageSelectSpinnerAdapter> dosageSelectSpinnerAdapters;
 	private ArrayAdapter<String> autoCompleteAdapter;
 
-	ArrayList<MedicationDose> medicationDoses;
+	private static Medication medication;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -63,14 +67,27 @@ public class ManageMedicationActivity extends Activity
 
 		if(savedInstanceState == null)
 		{
-			medicationDoses = new ArrayList<MedicationDose>();
-			medicationDoses.add(new MedicationDose("unknown", -1, MedicationDose.UNIT_MILLIGRAM));
+			medication = new Medication(null);
+			medication.dosages.add(new MedicationDose(null, -1, null));
+			medication.schedule.reminders.add(new MedicationReminder(8, -0, null));
 		}
 
 		initAutoComplete();
 		initDosagesCard();
 		initScheduleCard();
 		//initInfoCard();
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState)
+	{
+		outState.putString("medicationName", tvMedicationName.getText().toString());
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState)
+	{
+		tvMedicationName.setText(savedInstanceState.getString("medicationName"));
 	}
 
 	private void initAutoComplete()
@@ -118,14 +135,22 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				MedicationDose newDose = new MedicationDose("unknown", -1, MedicationDose.UNIT_MILLIGRAM);
-				medicationDoses.add(newDose);
-				addDosageLine(newDose, false);
+				MedicationDose newDose = new MedicationDose(null, -1, null);
+				medication.dosages.add(newDose);
+				addDosageLine(newDose, false, true);
 			}
 		});
-		for(MedicationDose dose : medicationDoses)
+
+		for(int i = 0; i < medication.dosages.size(); i++)
 		{
-			addDosageLine(dose, true);
+			if(i == 0)
+			{
+				addDosageLine(medication.dosages.get(i), true, false);
+			}
+			else
+			{
+				addDosageLine(medication.dosages.get(i), true, true);
+			}
 		}
 
 		linearLayout.addView(lnDosageCard);
@@ -133,7 +158,8 @@ public class ManageMedicationActivity extends Activity
 
 	private void initScheduleCard()
 	{
-		dosageSelectAdapters = new ArrayList<DosageSelectSpinnerAdapter>();
+		dosageSelectSpinners = new ArrayList<Spinner>();
+		dosageSelectSpinnerAdapters = new ArrayList<DosageSelectSpinnerAdapter>();
 
 		View paddingView = new View(getApplicationContext());
 		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
@@ -146,22 +172,43 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				new SetScheduleDialog().show(ManageMedicationActivity.this);
+				new SetScheduleDialog().show(ManageMedicationActivity.this, null, new SetScheduleDialog.OnScheduleEditedListener()
+				{
+					@Override public void onEdited()
+					{
+
+					}
+				});
 			}
 		});
 
-		btAddNewSchedule = (EditText) lnScheduleCard.findViewById(R.id.btAddNew);
-		btAddNewSchedule.setOnClickListener(new View.OnClickListener()
+		EditText btAddNewReminder = (EditText) lnScheduleCard.findViewById(R.id.btAddNew);
+		btAddNewReminder.setOnClickListener(new View.OnClickListener()
 		{
 			@Override public void onClick(View view)
 			{
-				addScheduleLine();
+				MedicationReminder newReminder = new MedicationReminder(8, 0, null);
+				medication.schedule.reminders.add(newReminder);
+				addScheduleLine(newReminder, false, true);
 			}
 		});
+
+		for(int i = 0; i < medication.schedule.reminders.size(); i++)
+		{
+			if(i == 0)
+			{
+				addScheduleLine(medication.schedule.reminders.get(i), true, false);
+			}
+			else
+			{
+				addScheduleLine(medication.schedule.reminders.get(i), true, true);
+			}
+		}
+
 		linearLayout.addView(lnScheduleCard);
 	}
 
-	private void initInfoCard()
+	/*private void initInfoCard()
 	{
 		View paddingView = new View(getApplicationContext());
 		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
@@ -169,9 +216,9 @@ public class ManageMedicationActivity extends Activity
 
 		View view = getLayoutInflater().inflate(R.layout.activity_managemedication_info, null);
 		linearLayout.addView(view);
-	}
+	}*/
 
-	private void addDosageLine(final MedicationDose dose, boolean isFirst)
+	private void addDosageLine(final MedicationDose dose, boolean isFirst, boolean canRemove)
 	{
 		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_managemedication_dosages_line, null);
 
@@ -179,13 +226,17 @@ public class ManageMedicationActivity extends Activity
 		final Spinner spDosageUnit = (Spinner) newDosageLine.findViewById(R.id.spDosageUnit);
 		final ImageButton btRemoveDose = (ImageButton) newDosageLine.findViewById(R.id.btRemoveDose);
 
+		DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this);
+		spDosageUnit.setAdapter(adapter);
+
 		if(dose.value != -1)
 		{
 			etDosageStrength.setText(String.valueOf(dose.value));
 		}
-
-		DosageTypeSpinnerAdapter adapter = new DosageTypeSpinnerAdapter(this, R.layout.sherlock_spinner_dropdown_item);
-		spDosageUnit.setAdapter(adapter);
+		if(dose.unit != null)
+		{
+			spDosageUnit.setSelection(MedicationDose.unitToPosition(dose.unit));
+		}
 
 		btRemoveDose.setOnClickListener(new View.OnClickListener()
 		{
@@ -199,9 +250,9 @@ public class ManageMedicationActivity extends Activity
 
 					@Override public void onAnimationEnd(Animation animation)
 					{
+						updateDosageSelectAdapters(dose, true);
 						lnDosageCard.removeView(newDosageLine);
-						medicationDoses.remove(dose);
-						updateDosageSelectAdapters(dose);
+						medication.dosages.remove(dose);
 					}
 
 					@Override public void onAnimationRepeat(Animation animation)
@@ -231,7 +282,7 @@ public class ManageMedicationActivity extends Activity
 					{
 						Toast.makeText(ManageMedicationActivity.this, "Invalid number", Toast.LENGTH_SHORT).show();
 					}
-					updateDosageSelectAdapters(dose);
+					updateDosageSelectAdapters(dose, false);
 				}
 				else
 				{
@@ -245,8 +296,7 @@ public class ManageMedicationActivity extends Activity
 			@Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
 				dose.unit = MedicationDose.positionToUnit(position);
-				Log.i("ITEM SELECTED");
-				updateDosageSelectAdapters(dose);
+				updateDosageSelectAdapters(dose, false);
 				etDosageStrength.requestFocus();
 			}
 			@Override public void onNothingSelected(AdapterView<?> parent)
@@ -254,9 +304,12 @@ public class ManageMedicationActivity extends Activity
 			}
 		});
 
-
-
 		lnDosageCard.addView(newDosageLine, lnDosageCard.getChildCount() - 2);
+
+		if(!canRemove)
+		{
+			btRemoveDose.setVisibility(View.INVISIBLE);
+		}
 		if(!isFirst)
 		{
 			Utils.expandView(newDosageLine, null);
@@ -266,17 +319,42 @@ public class ManageMedicationActivity extends Activity
 		}
 	}
 
-	private void addScheduleLine()
+	private void addScheduleLine(final MedicationReminder reminder, boolean isFirst, boolean canRemove)
 	{
 		final View newTimeLine = getLayoutInflater().inflate(R.layout.activity_managemedication_schedule_line, null);
 
-		//final EditText etDosageStrength = (EditText) newDosageLine.findViewById(R.id.etDosageStrength);
+		final EditText btScheduleTime = (EditText) newTimeLine.findViewById(R.id.btScheduleTime);
 		final Spinner spDosage = (Spinner) newTimeLine.findViewById(R.id.spDosage);
 		final ImageButton btRemoveTime = (ImageButton) newTimeLine.findViewById(R.id.btRemoveTime);
 
-		final DosageSelectSpinnerAdapter adapter = new DosageSelectSpinnerAdapter(this, R.layout.sherlock_spinner_dropdown_item);
+		final DosageSelectSpinnerAdapter adapter = new DosageSelectSpinnerAdapter(this);
 		spDosage.setAdapter(adapter);
-		dosageSelectAdapters.add(adapter);
+		dosageSelectSpinners.add(spDosage);
+		dosageSelectSpinnerAdapters.add(adapter);
+
+		btScheduleTime.setText(reminder.getHumanReadableTime(this));
+		if(reminder.dose != null)
+		{
+			spDosage.setSelection(medication.dosages.indexOf(reminder.dose));
+		}
+
+		btScheduleTime.setOnClickListener(new View.OnClickListener()
+		{
+			@Override public void onClick(View view)
+			{
+				TimePickerDialog timePicker = new TimePickerDialog(ManageMedicationActivity.this, new TimePickerDialog.OnTimeSetListener()
+				{
+					@Override public void onTimeSet(TimePicker view, int hour, int minute)
+					{
+						reminder.hour = hour;
+						reminder.minute = minute;
+						btScheduleTime.setText(reminder.getHumanReadableTime(ManageMedicationActivity.this));
+					}
+				}, reminder.hour, reminder.minute, DateFormat.is24HourFormat(ManageMedicationActivity.this));
+				timePicker.setTitle(R.string.managemedication_schedule_remindertitle);
+				timePicker.show();
+			}
+		});
 
 		btRemoveTime.setOnClickListener(new View.OnClickListener()
 		{
@@ -291,7 +369,9 @@ public class ManageMedicationActivity extends Activity
 					@Override public void onAnimationEnd(Animation animation)
 					{
 						lnScheduleCard.removeView(newTimeLine);
-						dosageSelectAdapters.remove(adapter);
+						medication.schedule.reminders.remove(reminder);
+						dosageSelectSpinnerAdapters.remove(adapter);
+						dosageSelectSpinners.remove(spDosage);
 					}
 
 					@Override public void onAnimationRepeat(Animation animation)
@@ -305,8 +385,9 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
 			{
-				MedicationDose currentDose = medicationDoses.get(position);
-				adapter.selectedView.setText(currentDose.value + " " + currentDose.getHumanReadableUnit(getResources()));
+				MedicationDose selectedDose = medication.dosages.get(position);
+				reminder.dose = selectedDose;
+				adapter.selectedView.setText(selectedDose.value + " " + selectedDose.getHumanReadableUnit(getResources()));
 			}
 			@Override public void onNothingSelected(AdapterView<?> parent)
 			{
@@ -314,17 +395,57 @@ public class ManageMedicationActivity extends Activity
 		});
 
 		lnScheduleCard.addView(newTimeLine, lnScheduleCard.getChildCount() - 2);
-		Utils.expandView(newTimeLine, null);
+
+		if(!canRemove)
+		{
+			btRemoveTime.setVisibility(View.INVISIBLE);
+		}
+		if(!isFirst)
+		{
+			Utils.expandView(newTimeLine, null);
+		}
 	}
 
-	private void updateDosageSelectAdapters(MedicationDose updatedDose)
+	private void updateDosageSelectAdapters(MedicationDose updatedDose, boolean wasRemoved)
 	{
-		for(DosageSelectSpinnerAdapter adapter : dosageSelectAdapters)
+		for(int i = 0; i < dosageSelectSpinners.size(); i++)
 		{
-			adapter.selectedView.setText(updatedDose.value + " " + updatedDose.getHumanReadableUnit(getResources()));
+			Spinner dosageSelectSpinner = dosageSelectSpinners.get(i);
+			DosageSelectSpinnerAdapter adapter = dosageSelectSpinnerAdapters.get(i);
+			MedicationDose dose = medication.dosages.get(dosageSelectSpinner.getSelectedItemPosition());
+
+			if(dose.equals(updatedDose))
+			{
+				if(wasRemoved)
+				{
+					if(medication.dosages.indexOf(updatedDose) == 0)
+					{
+						adapter.selectedView.setText(medication.dosages.get(1).value + " " + medication.dosages.get(1).getHumanReadableUnit(getResources()));
+					}
+					else
+					{
+						adapter.selectedView.setText(medication.dosages.get(0).value + " " + medication.dosages.get(0).getHumanReadableUnit(getResources()));
+					}
+				}
+				else
+				{
+					adapter.selectedView.setText(updatedDose.value + " " + updatedDose.getHumanReadableUnit(getResources()));
+				}
+			}
+
 			adapter.notifyDataSetChanged();
 		}
 	}
+
+	private void startBarcodeScanner()
+	{
+		Intent intent = new Intent(this, CaptureActivity.class);
+		intent.putExtra("SCAN_MODE", "QR_CODE_MODE, PRODUCT_MODE");
+		startActivityForResult(intent, 0);
+	}
+
+
+
 
 	class DosageTypeSpinnerAdapter extends ArrayAdapter<String>
 	{
@@ -334,7 +455,7 @@ public class ManageMedicationActivity extends Activity
 		LayoutInflater inflater;
 		int preferredHeight;
 
-		public DosageTypeSpinnerAdapter(Context context, int textViewResourceId)
+		public DosageTypeSpinnerAdapter(Context context)
 		{
 			super(context, 0);
 			this.inflater = LayoutInflater.from(context);
@@ -392,9 +513,9 @@ public class ManageMedicationActivity extends Activity
 
 		public TextView selectedView;
 
-		public DosageSelectSpinnerAdapter(Context context, int textViewResourceId)
+		public DosageSelectSpinnerAdapter(Context context)
 		{
-			super(context, 0, 0, medicationDoses);
+			super(context, 0, 0, medication.dosages);
 
 			this.inflater = LayoutInflater.from(context);
 			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
@@ -405,7 +526,7 @@ public class ManageMedicationActivity extends Activity
 		@Override
 		public int getCount()
 		{
-			return medicationDoses.size();
+			return medication.dosages.size();
 		}
 
 		@Override
@@ -447,13 +568,6 @@ public class ManageMedicationActivity extends Activity
 			updateAutoCompleteAdapter();
 		}
 	};
-
-	private void startBarcodeScanner()
-	{
-		Intent intent = new Intent(this, CaptureActivity.class);
-		intent.putExtra("SCAN_MODE", "QR_CODE_MODE, PRODUCT_MODE");
-		startActivityForResult(intent, 0);
-	}
 
 	HttpGet autoCompleteGetRequest;
 	private void updateAutoCompleteAdapter()

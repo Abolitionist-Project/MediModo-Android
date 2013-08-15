@@ -11,55 +11,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <org.holoeverywhere.widget.Spinner
-            android:id="@+id/spInterval"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:id="@+id/spScheduleInterval"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="114dp"
             style="@style/spinner_style"/>
         <org.holoeverywhere.widget.Spinner
             android:id="@+id/spScheduleType"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:minWidth="114dp"
             style="@style/spinner_style"/>
     </LinearLayout>
 
-<!--
-    <LinearLayout
-        android:id="@+id/lnInterval"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:visibility="invisible">
-        <org.holoeverywhere.widget.EditText
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"/>
-        <org.holoeverywhere.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/days_lowerc"/>
-    </LinearLayout>
--->
     <ViewFlipper
         android:id="@+id/viewFlipper"
         android:layout_width="match_parent"
-        android:layout_height="246dp">
+        android:layout_height="216dp">
 
         <TableLayout
-            android:id="@+id/vwDays"
+            android:id="@+id/vwDaily"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/vwWeekly"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.CheckBox
-                    android:id="@+id/cbEveryDay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="@string/day_every"/>
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbMonday"
                     android:layout_width="0dp"
@@ -67,13 +58,6 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_monday"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
-
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbTuesday"
                     android:layout_width="0dp"
@@ -81,6 +65,15 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_tuesday"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbWednesday"
                     android:layout_width="0dp"
@@ -88,13 +81,6 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_wednesday"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp" >
-
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbThursday"
                     android:layout_width="0dp"
@@ -102,6 +88,15 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_thursday"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbFriday"
                     android:layout_width="0dp"
@@ -109,13 +104,6 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_friday"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp" >
-
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbSaturday"
                     android:layout_width="0dp"
@@ -123,6 +111,15 @@
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="@string/day_saturday"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
+
                 <org.holoeverywhere.widget.CheckBox
                     android:id="@+id/cbSunday"
                     android:layout_width="0dp"
@@ -134,323 +131,51 @@
         </TableLayout>
 
         <TableLayout
-            android:id="@+id/vwCalendar"
+            android:id="@+id/vwMonthly"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="1"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="2"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="3"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="4"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="5"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="6"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="7"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
+
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="8"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="9"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="10"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="11"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="12"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="13"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="14"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
+
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="15"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="16"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="17"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="18"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="19"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="20"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="21"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
+
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="22"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="23"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="24"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="25"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="26"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="27"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="28"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
+
             </TableRow>
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical">
 
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="29"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="30"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <org.holoeverywhere.widget.Button
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="31"
-                    android:textSize="17sp"
-                    android:background="@drawable/selector"/>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"/>
             </TableRow>
         </TableLayout>
-        <LinearLayout
-                android:id="@+id/vwEveryXDays"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-            <org.holoeverywhere.widget.NumberPicker
-                    android:id="@+id/np"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"/>
-
-            <LinearLayout
-                    android:id="@+id/vwStartDay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Starting: "/>
-                <org.holoeverywhere.widget.Spinner
-                        android:id="@+id/spStartDay"
-                        android:layout_width="fill_parent"
-                        android:layout_height="48dp"
-                        style="@style/spinner_style"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TableLayout
-                android:id="@+id/vwDaily"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Skip: "/>
-                <org.holoeverywhere.widget.EditText
-                    android:id="@+id/etSkip"
-                    android:layout_width="98dp"
-                    android:layout_height="48dp"
-                    android:imeOptions="actionDone"
-                    android:hint="x days"
-                    android:inputType="numberSigned"/>
-            </TableRow>
-            <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Every: "/>
-                <org.holoeverywhere.widget.EditText
-                        android:id="@+id/etSkip"
-                        android:layout_width="98dp"
-                        android:layout_height="48dp"
-                        android:imeOptions="actionDone"
-                        android:hint="x days"
-                        android:inputType="numberSigned"/>
-            </TableRow>
-
-        </TableLayout>
-
     </ViewFlipper>
 </LinearLayout>

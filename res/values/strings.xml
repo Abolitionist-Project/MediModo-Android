@@ -19,15 +19,27 @@
     <string name="managemedication_schedule_edit">Daily, tap to change schedule</string>
     <string name="managemedication_schedule_addTime">Add time</string>
     <string name="managemedication_schedule_take">take</string>
+    <string name="managemedication_schedule_time">Time</string>
+    <string name="managemedication_schedule_remindertitle">Reminder me at</string>
     <string name="managemedication_usage">Usage instructions</string>
     <string name="managemedication_sidefx">Side effects</string>
     <string name="managemedication_medname_hint">Medication name</string>
 
-    <string name="setschedule_title">Remind me every</string>
-    <string name="scheduletype_daily">Daily</string>
-    <string name="scheduletype_xdays">Every x days</string>
-    <string name="scheduletype_weekly">Weekly</string>
-    <string name="scheduletype_monthly">Months</string>
+    <string name="setschedule_title">Remind me</string>
+    <string name="setschedule_interval_every">Every</string>
+    <plurals name="scheduletype_daily">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
+    <plurals name="scheduletype_weekly">
+        <item quantity="one">Week</item>
+        <item quantity="other">Weeks</item>
+    </plurals>
+
+    <plurals name="scheduletype_monthly">
+        <item quantity="one">Month</item>
+        <item quantity="other">Months</item>
+    </plurals>
 
     <string name="day_every">Every day</string>
     <string name="day_monday">Monday</string>

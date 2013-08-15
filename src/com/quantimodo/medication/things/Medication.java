@@ -1,11 +1,15 @@
 package com.quantimodo.medication.things;
 
+import com.quantimodo.medication.things.schedule.DailySchedule;
+import com.quantimodo.medication.things.schedule.MedicationSchedule;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class Medication
 {
-	String id;                          // Primary
+	String id;
 
 	String name;
 	String reason;
@@ -13,15 +17,15 @@ public class Medication
 	String[] instructions;
 	String[] sideFx;
 
-	List<MedicationDose> dosages;       // Available dosages (also contains inventory)
-	List<MedicationSchedule> schedule;  // Schedule (also contains reminders)
-	List<MedicationReaction> reactions; // Reactions the user has on this medication
+	public List<MedicationDose> dosages;       // Available dosages (also contains inventory)
+	public MedicationSchedule schedule;        // Schedule (also contains reminders)
 
-	public Medication(String name, List<MedicationDose> dosages)
+	public Medication(String name)
 	{
 		this.id = UUID.randomUUID().toString();
 		this.name = name;
-		this.dosages = dosages;
+		this.dosages = new ArrayList<MedicationDose>();
+		this.schedule = new DailySchedule();
 	}
 
 	/*

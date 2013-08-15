@@ -66,4 +66,36 @@ public class MedicationDose
 		}
 		return "unknown";
 	}
+
+	public static int unitToPosition(String unit)
+	{
+		if(unit.equals(UNIT_MILLIGRAM))
+		{
+			return UNIT_MILLIGRAM_POS;
+		}
+		else if(unit.equals(UNIT_MICROGRAM))
+		{
+			return UNIT_MICROGRAM_POS;
+		}
+		else if(unit.equals(UNIT_GRAM))
+		{
+			return UNIT_GRAM_POS;
+		}
+		else if(unit.equals(UNIT_DROP))
+		{
+			return UNIT_DROP_POS;
+		}
+		else if(unit.equals(UNIT_STAB))
+		{
+			return UNIT_STAB_POS;
+		}
+		else if(unit.equals(UNIT_THING))
+		{
+			return UNIT_THING_POS;
+		}
+		else
+		{
+			return 0;
+		}
+	}
 }
