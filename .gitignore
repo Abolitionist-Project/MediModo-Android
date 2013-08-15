@@ -1,6 +1,7 @@
 # output
 bin/*
 out/*
+gen/*
 
 # Eclipse
 .classpath
