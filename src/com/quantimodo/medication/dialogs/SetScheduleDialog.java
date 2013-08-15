@@ -4,89 +4,118 @@ package com.quantimodo.medication.dialogs;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Handler;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.CompoundButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.ViewFlipper;
 import com.quantimodo.medication.R;
 import com.quantimodo.medication.Utils;
-import com.quantimodo.medication.things.schedule.MedicationSchedule;
+import com.quantimodo.medication.things.MedicationSchedule;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 
-public class SetScheduleDialog implements DialogInterface.OnDismissListener
+public class SetScheduleDialog
 {
 	private Context context;
-	private MedicationSchedule currentSchedule;
-	private OnScheduleEditedListener listener;
+
+	private MedicationSchedule currentSchedule; // Do -not- modify this from here unless saving
+	private OnScheduleEditedListener listener;  // Listener that'll report back on save
 
 	private View view;
-
-	String[] scheduleTypes;
-	String[] scheduleTypesPlural;
-
 	private ViewFlipper viewFlipper;
-	private CheckBox[] cbDays = new CheckBox[7];
 	private TextView spScheduleTypeSelected;
 	private Spinner spScheduleType;
 	private Spinner spScheduleInterval;
 
-	private HashMap<Integer, Boolean> selectedCalendarDays;
+	String[] scheduleTypes;
+	String[] scheduleTypesPlural;
 
+	private ArrayList<Integer> selectedCalendarDays;
+	private ArrayList<Integer> selectedWeekDays;
 
 	public interface OnScheduleEditedListener
 	{
-		public void onEdited();
+		public void onEdited(MedicationSchedule newSchedule);
 	}
 
-	public void show(final Context context, MedicationSchedule currentSchedule, OnScheduleEditedListener listener)
+	public void show(final Context context, MedicationSchedule originalSchedule, OnScheduleEditedListener listener)
 	{
 		this.context = context;
-		this.currentSchedule = currentSchedule;
 		this.listener = listener;
+		this.currentSchedule = originalSchedule;
+
+		if(currentSchedule.type == MedicationSchedule.TYPE_WEEKLY)
+		{
+			selectedWeekDays = new ArrayList<Integer>(originalSchedule.enabledDays.size());
+			for(int enabledDay : originalSchedule.enabledDays)
+			{
+				selectedWeekDays.add(enabledDay);
+			}
+		}
+		else if(currentSchedule.type == MedicationSchedule.TYPE_MONTHLY)
+		{
+			selectedCalendarDays = new ArrayList<Integer>(originalSchedule.enabledDays.size());
+			for(int enabledDay : originalSchedule.enabledDays)
+			{
+				selectedCalendarDays.add(enabledDay);
+			}
+		}
 
 		this.view = LayoutInflater.from(context).inflate(R.layout.dialog_setschedule, null);
 		this.viewFlipper = (ViewFlipper) view.findViewById(R.id.viewFlipper);
 		this.viewFlipper.setDisplayedChild(1);
 		this.viewFlipper.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
 		this.viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right));
+
 		initScheduleSpinners();
 		initCheckBoxes();
 		initCalendar();
 
-		this.viewFlipper.setInAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left));
-		this.viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right));
-
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
-		builder.setCancelable(true);
+		builder.setCancelable(false);
 		builder.setInverseBackgroundForced(true);
 		builder.setTitle(R.string.setschedule_title);
-
-		builder.setOnCancelListener(new DialogInterface.OnCancelListener()
-		{
-			@Override
-			public void onCancel(DialogInterface dialog)
-			{
-
-			}
-		});
 
 		builder.setPositiveButton(R.string.action_save, new DialogInterface.OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int id)
 			{
+				currentSchedule.type = spScheduleType.getSelectedItemPosition();
+				currentSchedule.interval = spScheduleInterval.getSelectedItemPosition() + 1;
 
+				currentSchedule.enabledDays.clear();
+				switch(currentSchedule.type)
+				{
+				case MedicationSchedule.TYPE_DAILY:
+					break;
+				case MedicationSchedule.TYPE_WEEKLY:
+					currentSchedule.enabledDays = new ArrayList<Integer>(selectedWeekDays.size());
+					for(int enabledDay : selectedWeekDays)
+					{
+						currentSchedule.enabledDays.add(enabledDay);
+					}
+					break;
+				case MedicationSchedule.TYPE_MONTHLY:
+					currentSchedule.enabledDays = new ArrayList<Integer>(selectedCalendarDays.size());
+					for(int enabledDay : selectedCalendarDays)
+					{
+						currentSchedule.enabledDays.add(enabledDay);
+					}
+					break;
+				}
+
+				SetScheduleDialog.this.listener.onEdited(SetScheduleDialog.this.currentSchedule);
 			}
 		});
 
@@ -101,34 +130,11 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 
 		AlertDialog alert = builder.create();
 		//alert.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		alert.setOnDismissListener(this);
 		alert.show();
-	}
-
-	@Override
-	public void onDismiss(DialogInterface dialogInterface)
-	{
-		MedicationSchedule schedule;
-
-		switch (spScheduleType.getSelectedItemPosition())
-		{
-		case MedicationSchedule.TYPE_DAILY:
-			break;
-		case MedicationSchedule.TYPE_WEEKLY:
-			break;
-		case MedicationSchedule.TYPE_MONTHLY:
-			break;
-		}
 	}
 
 	private void initScheduleSpinners()
 	{
-		ScheduleTypeSpinnerAdapter spScheduleTypeAdapter = new ScheduleTypeSpinnerAdapter(context);
-		spScheduleType = (Spinner) view.findViewById(R.id.spScheduleType);
-		spScheduleType.setAdapter(spScheduleTypeAdapter);
-		spScheduleType.setSelection(1);
-		spScheduleType.setOnItemSelectedListener(onScheduleTypeSelectedListener);
-
 		String[] intervals = new String[99];
 		for (int i = 1; i < 100; i++)
 		{
@@ -137,11 +143,27 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		ScheduleIntervalSpinnerAdapter spScheduleIntervalAdapter = new ScheduleIntervalSpinnerAdapter(context, intervals);
 		spScheduleInterval = (Spinner) view.findViewById(R.id.spScheduleInterval);
 		spScheduleInterval.setAdapter(spScheduleIntervalAdapter);
+		if(currentSchedule.interval < 1)
+		{
+			spScheduleInterval.setSelection(currentSchedule.interval - 1);
+		}
+		else
+		{
+			spScheduleInterval.setSelection(0);
+		}
 		spScheduleInterval.setOnItemSelectedListener(onScheduleIntervalSelectedListener);
+
+		ScheduleTypeSpinnerAdapter spScheduleTypeAdapter = new ScheduleTypeSpinnerAdapter(context, currentSchedule.type);
+		spScheduleType = (Spinner) view.findViewById(R.id.spScheduleType);
+		spScheduleType.setAdapter(spScheduleTypeAdapter);
+		spScheduleType.setSelection(currentSchedule.type);
+		spScheduleType.setOnItemSelectedListener(onScheduleTypeSelectedListener);
 	}
 
 	private void initCheckBoxes()
 	{
+		CheckBox[] cbDays = new CheckBox[7];
+
 		cbDays[0] = (CheckBox) view.findViewById(R.id.cbMonday);
 		cbDays[1] = (CheckBox) view.findViewById(R.id.cbTuesday);
 		cbDays[2] = (CheckBox) view.findViewById(R.id.cbWednesday);
@@ -149,27 +171,58 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		cbDays[4] = (CheckBox) view.findViewById(R.id.cbFriday);
 		cbDays[5] = (CheckBox) view.findViewById(R.id.cbSaturday);
 		cbDays[6] = (CheckBox) view.findViewById(R.id.cbSunday);
-		/*cbDays[0].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
+
+		if(selectedWeekDays == null)
+		{
+			selectedWeekDays = new ArrayList<Integer>(7);
+			selectedWeekDays.add(Calendar.MONDAY);
+			selectedWeekDays.add(Calendar.TUESDAY);
+			selectedWeekDays.add(Calendar.WEDNESDAY);
+			selectedWeekDays.add(Calendar.THURSDAY);
+			selectedWeekDays.add(Calendar.FRIDAY);
+			selectedWeekDays.add(Calendar.SATURDAY);
+			selectedWeekDays.add(Calendar.SUNDAY);
+		}
+
+		cbDays[0].setChecked(selectedWeekDays.contains(Calendar.MONDAY));
+		cbDays[1].setChecked(selectedWeekDays.contains(Calendar.TUESDAY));
+		cbDays[2].setChecked(selectedWeekDays.contains(Calendar.WEDNESDAY));
+		cbDays[3].setChecked(selectedWeekDays.contains(Calendar.THURSDAY));
+		cbDays[4].setChecked(selectedWeekDays.contains(Calendar.FRIDAY));
+		cbDays[5].setChecked(selectedWeekDays.contains(Calendar.SATURDAY));
+		cbDays[6].setChecked(selectedWeekDays.contains(Calendar.SUNDAY));
+
+		cbDays[0].setTag(Calendar.MONDAY);
+		cbDays[1].setTag(Calendar.TUESDAY);
+		cbDays[2].setTag(Calendar.WEDNESDAY);
+		cbDays[3].setTag(Calendar.THURSDAY);
+		cbDays[4].setTag(Calendar.FRIDAY);
+		cbDays[5].setTag(Calendar.SATURDAY);
+		cbDays[6].setTag(Calendar.SUNDAY);
+
+		cbDays[0].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 		cbDays[1].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 		cbDays[2].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 		cbDays[3].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 		cbDays[4].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 		cbDays[5].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
-		cbDays[6].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);*/
+		cbDays[6].setOnCheckedChangeListener(onCbDaysCheckedChangeListener);
 	}
 
 	private void initCalendar()
 	{
-		Calendar calendar = Calendar.getInstance();
-		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+		if(selectedCalendarDays == null)
+		{
+			selectedCalendarDays = new ArrayList<Integer>();
+		}
 
-		selectedCalendarDays = new HashMap<Integer, Boolean>();
+
 		TableLayout tableLayout = (TableLayout) view.findViewById(R.id.vwMonthly);
 		int totalViews = 0;
 
 		int buttonDimens = Utils.convertDpToPixel(40, context.getResources());
 		TableRow.LayoutParams buttonLayoutParams = new TableRow.LayoutParams(buttonDimens, buttonDimens);
-
+		TableRow.LayoutParams spacerViewParams = new TableRow.LayoutParams(0, 1, 1);
 
 		for (int rowNum = 0; rowNum < 5; rowNum++)
 		{
@@ -189,20 +242,19 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 					else
 					{
 						Button newButton = new Button(context);
-						TableRow.LayoutParams params = new TableRow.LayoutParams(buttonDimens, buttonDimens);
-						params.column = viewNum;
+						/*TableRow.LayoutParams buttonLayoutParams = new TableRow.LayoutParams(buttonDimens, buttonDimens);
+						params.column = viewNum;*/
 
-						newButton.setLayoutParams(params);
+						//newButton.setLayoutParams(params);
 						newButton.setLayoutParams(buttonLayoutParams);
 						newButton.setText(String.valueOf(totalViews));
 						newButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
 						newButton.setOnClickListener(onCalendarDayClickedListener);
 
-						if (dayOfMonth == totalViews)
+						if (selectedCalendarDays.contains(totalViews))
 						{
-							newButton.setBackgroundResource(R.drawable.selector_reddotbg);
 							newButton.setTextColor(context.getResources().getColor(android.R.color.white));
-							selectedCalendarDays.put(totalViews, true);
+							newButton.setBackgroundResource(R.drawable.selector_reddotbg);
 						}
 						else
 						{
@@ -216,10 +268,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 				else
 				{
 					View view = new View(context);
-					TableRow.LayoutParams params = new TableRow.LayoutParams(0, 1);
-					params.column = viewNum;
-					params.weight = 1;
-					view.setLayoutParams(params);
+					view.setLayoutParams(spacerViewParams);
 					currentGroup.addView(view);
 				}
 			}
@@ -236,11 +285,11 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 
 				if (spScheduleInterval.getSelectedItemPosition() == 0)
 				{
-					spScheduleTypeSelected.setText(scheduleTypes[spScheduleType.getSelectedItemPosition()]);
+					spScheduleTypeSelected.setText(scheduleTypes[position]);
 				}
 				else
 				{
-					spScheduleTypeSelected.setText(scheduleTypesPlural[spScheduleType.getSelectedItemPosition()]);
+					spScheduleTypeSelected.setText(scheduleTypesPlural[position]);
 				}
 				new Handler().postDelayed(new Runnable()
 				{
@@ -250,10 +299,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 					}
 				}, 1000);
 			}
-
-
 		}
-
 		@Override public void onNothingSelected(AdapterView<?> parent)
 		{
 		}
@@ -278,24 +324,42 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		}
 	};
 
+	private CompoundButton.OnCheckedChangeListener onCbDaysCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
+	{
+		@SuppressWarnings("SuspiciousMethodCalls")  // Hide warning about Object cast required for removal of specific day
+		@Override public void onCheckedChanged(CompoundButton compoundButton, boolean b)
+		{
+			int dayOfWeek = (Integer) compoundButton.getTag();
+			if(selectedWeekDays.contains(dayOfWeek))
+			{
+				selectedWeekDays.remove((Object) dayOfWeek);
+			}
+			else
+			{
+				selectedWeekDays.add(dayOfWeek);
+			}
+		}
+	};
+
 	View.OnClickListener onCalendarDayClickedListener = new View.OnClickListener()
 	{
+		@SuppressWarnings("SuspiciousMethodCalls")
 		@Override
 		public void onClick(View view)
 		{
 			Button button = (Button) view;
-			int buttonNumber = Integer.parseInt(button.getText().toString());
-			if (selectedCalendarDays.get(buttonNumber) == null)
-			{
-				view.setBackgroundResource(R.drawable.selector_reddotbg);
-				((Button) view).setTextColor(Color.parseColor("#FFFFFF"));
-				selectedCalendarDays.put(buttonNumber, true);
-			}
-			else if (selectedCalendarDays.get(buttonNumber))
+			int date = Integer.parseInt(button.getText().toString());
+			if (selectedCalendarDays.contains(date))
 			{
 				view.setBackgroundResource(R.drawable.selector);
-				((Button) view).setTextColor(Color.parseColor("#000000"));
-				selectedCalendarDays.remove(buttonNumber);
+				((Button) view).setTextColor(context.getResources().getColor(android.R.color.black));
+				selectedCalendarDays.remove((Object) date);
+			}
+			else
+			{
+				view.setBackgroundResource(R.drawable.selector_reddotbg);
+				((Button) view).setTextColor(context.getResources().getColor(android.R.color.white));
+				selectedCalendarDays.add(date);
 			}
 		}
 
@@ -306,7 +370,7 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 		LayoutInflater inflater;
 		int preferredHeight;
 
-		public ScheduleTypeSpinnerAdapter(Context context)
+		public ScheduleTypeSpinnerAdapter(Context context, int position)
 		{
 			super(context, R.layout.sherlock_spinner_dropdown_item);
 
@@ -330,11 +394,19 @@ public class SetScheduleDialog implements DialogInterface.OnDismissListener
 			spScheduleTypeSelected.setPadding(Utils.convertDpToPixel(8, context.getResources()), 0, 0, 0);
 			spScheduleTypeSelected.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			spScheduleTypeSelected.setTextColor(res.getColor(R.color.card_title));
+			if (spScheduleInterval.getSelectedItemPosition() == 0)
+			{
+				spScheduleTypeSelected.setText(scheduleTypes[position]);
+			}
+			else
+			{
+				spScheduleTypeSelected.setText(scheduleTypesPlural[position]);
+			}
 		}
 
 		@Override public int getCount()
 		{
-			return 3;
+			return scheduleTypes.length;
 		}
 
 		@Override
