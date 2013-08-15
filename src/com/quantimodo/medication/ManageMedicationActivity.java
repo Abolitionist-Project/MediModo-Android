@@ -93,7 +93,7 @@ public class ManageMedicationActivity extends Activity
 	private void initAutoComplete()
 	{
 		tvMedicationName = (AutoCompleteTextView) findViewById(R.id.tvMedicationName);
-		autoCompleteAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>());
+		autoCompleteAdapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_dropdown_item, new ArrayList<String>());
 		tvMedicationName.setAdapter(autoCompleteAdapter);
 		tvMedicationName.addTextChangedListener(onMedicationNameChanged);
 	}
