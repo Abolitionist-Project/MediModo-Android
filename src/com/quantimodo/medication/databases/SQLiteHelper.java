@@ -21,38 +21,62 @@ public class SQLiteHelper extends SQLiteOpenHelper
 	public void onCreate(SQLiteDatabase database)
 	{
 		this.database = database;
-		database.execSQL("CREATE TABLE Medication (" +
+		database.execSQL("CREATE TABLE medications (" +
 				"id TEXT PRIMARY KEY," +
-				"name TEXT," +
-				"reason TEXT," +
-				"description TEXT," +
-				"instructions TEXT," +
-				"sideFx TEXT" +
+				"name TEXT" +
+				//"reason TEXT," +
+				//"description TEXT," +
+				//"instructions TEXT," +
+				//"sideFx TEXT" +
 				");");
 
-		database.execSQL("CREATE TABLE MedicationReaction (" +
+/*		database.execSQL("CREATE TABLE MedicationReaction (" +
 				"id TEXT PRIMARY KEY," +
 				"medicationId TEXT," +
 				"reaction TEXT," +
 				"date INTEGER," +
 				"FOREIGN KEY(medicationId) REFERENCES Medication(id)" +
-				");");
+				");");*/
 
-		database.execSQL("CREATE TABLE MedicationDose (" +
+		database.execSQL("CREATE TABLE dosages (" +
 				"id TEXT PRIMARY KEY," +
 				"medicationId TEXT," +
 				"value INTEGER," +
 				"unit TEXT," +
 				"inventory INTEGER," +
-				"FOREIGN KEY(medicationId) REFERENCES Medication(id)" +
+				"FOREIGN KEY(medicationId) REFERENCES medications(id)" +
 				");");
 
 		//TODO store medication name in case it's deleted later?
-		database.execSQL("CREATE TABLE MedicationIntake (" +
-				"medicationIdid TEXT PRIMARY KEY," +
-				"date INTEGER," +
+		database.execSQL("CREATE TABLE consumptions (" +
+				"timestamp INTEGER PRIMARY KEY," +
+				"medicationId TEXT," +
+				"doseId TEXT," +
 				"deviation INTEGER," +
-				"FOREIGN KEY(medicationId) REFERENCES Medication(id)" +
+				"FOREIGN KEY(medicationId) REFERENCES medications(id)," +
+				"FOREIGN KEY(doseId) REFERENCES dosages(id)" +
+				");");
+
+		//Table Schedule
+		//ScheduleID + medicationID = PK?
+		database.execSQL("CREATE TABLE schedules (" +
+				"id TEXT PRIMARY KEY," +
+				"medicationId TEXT," +
+				"type INTEGER," +
+				"interval INTEGER," +
+				"FOREIGN KEY(medicationId) REFERENCES medications(id)" +
+				");");
+
+		//Table Reminder
+		//ReminderId + scheduleId + doseId = PK?
+		database.execSQL("CREATE TABLE reminders (" +
+				"id TEXT PRIMARY KEY," +
+				"scheduleId TEXT," +
+				"doseId TEXT," +
+				"hour INTEGER," +
+				"minute INTEGER," +
+				"FOREIGN KEY(doseId) REFERENCES dosages(id)," +
+				"FOREIGN KEY(scheduleId) REFERENCES schedules(id)" +
 				");");
 	}
 

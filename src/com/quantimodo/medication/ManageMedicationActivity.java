@@ -66,9 +66,9 @@ public class ManageMedicationActivity extends Activity
 			}
 		});
 
-		if (savedInstanceState == null)
+		if (medication == null)
 		{
-			medication = new Medication(null);
+			medication = new Medication();
 			medication.dosages.add(new MedicationDose(null, -1, null));
 			medication.schedule.reminders.add(new MedicationReminder(8, -0, null));
 		}
@@ -79,7 +79,32 @@ public class ManageMedicationActivity extends Activity
 		//initInfoCard();
 	}
 
-	@Override
+	/* Called when the user clicks the "Save" button in this activity */
+	View.OnClickListener onSaveButtonClicked = new View.OnClickListener()
+	{
+		@Override public void onClick(View view)
+		{
+			medication.save(ManageMedicationActivity.this);
+			medication = null;
+
+			setResult(RESULT_OK);
+			finish();
+		}
+	};
+
+	/* Called when the user clicks the "Discard" button in this activity */
+	View.OnClickListener onDiscardButtonClicked = new View.OnClickListener()
+	{
+		@Override public void onClick(View view)
+		{
+			medication = null;
+
+			setResult(RESULT_CANCELED);
+			finish();
+		}
+	};
+
+/*	@Override
 	protected void onSaveInstanceState(Bundle outState)
 	{
 		outState.putString("medicationName", tvMedicationName.getText().toString());
@@ -89,11 +114,12 @@ public class ManageMedicationActivity extends Activity
 	protected void onRestoreInstanceState(Bundle savedInstanceState)
 	{
 		tvMedicationName.setText(savedInstanceState.getString("medicationName"));
-	}
+	}*/
 
 	private void initAutoComplete()
 	{
 		tvMedicationName = (AutoCompleteTextView) findViewById(R.id.tvMedicationName);
+		tvMedicationName.setText(medication.name);
 		autoCompleteAdapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_dropdown_item, new ArrayList<String>());
 		tvMedicationName.setAdapter(autoCompleteAdapter);
 		tvMedicationName.addTextChangedListener(onMedicationNameChanged);
@@ -104,23 +130,9 @@ public class ManageMedicationActivity extends Activity
 		ActionBar actionBar = getSupportActionBar();
 		View actionBarView = getLayoutInflater().inflate(R.layout.actionbar_donediscard, null);
 		View discardButton = actionBarView.findViewById(R.id.actionbar_discard);
-		discardButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				finish();
-			}
-		});
+		discardButton.setOnClickListener(onDiscardButtonClicked);
 		View doneButton = actionBarView.findViewById(R.id.actionbar_done);
-		doneButton.setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View view)
-			{
-				finish();
-			}
-		});
+		doneButton.setOnClickListener(onSaveButtonClicked);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
 		actionBar.getDisplayOptions();
 		actionBar.setCustomView(actionBarView);
@@ -568,6 +580,7 @@ public class ManageMedicationActivity extends Activity
 
 		@Override public void afterTextChanged(final Editable editable)
 		{
+			medication.name = editable.toString();
 			if (editable.length() != 2)
 			{
 				return;

@@ -38,10 +38,8 @@ public class MedicationOverviewFragment extends SherlockFragment
 		}
 
 		View view = inflater.inflate(R.layout.fragment_medicationoverview, container, false);
-		View headerView = inflater.inflate(R.layout.fragment_medicationoverview_today, null);
-		//TODO Fill header
+
 		listView = (ListView) view.findViewById(android.R.id.list);
-		listView.addHeaderView(headerView);
 		listView.setAdapter(new Adapter());
 
 		initTodayHeader();

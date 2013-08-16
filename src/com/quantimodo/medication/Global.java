@@ -1,28 +1,22 @@
 package com.quantimodo.medication;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import com.quantimodo.sdk.QuantimodoClient;
+import com.quantimodo.medication.things.Medication;
+
+import java.util.ArrayList;
 
 public class Global
 {
-	public static QuantimodoClient quantimodo;
-
 	public static String packageName;
 
 	// Preferences
-	public static int moodInterval;
+
+	public static ArrayList<Medication> medication;
 
 	public static void init(Context context)
 	{
-		quantimodo = QuantimodoClient.getInstance();
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		//SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
 		Global.packageName = context.getPackageName();
-
-		// Preferences
-		Global.moodInterval = Integer.valueOf(prefs.getString("moodInterval", "1"));
 	}
 }

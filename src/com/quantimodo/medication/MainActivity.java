@@ -1,18 +1,12 @@
 package com.quantimodo.medication;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.quantimodo.medication.fragments.MedicationOverviewFragment;
 
 public class MainActivity extends SherlockFragmentActivity
 {
-	private Fragment medicationFragment;
-
 	@Override protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -20,31 +14,24 @@ public class MainActivity extends SherlockFragmentActivity
 
 		Global.init(this);
 
-		if (savedInstanceState != null)
-		{
-			medicationFragment = getSupportFragmentManager().getFragment(savedInstanceState, MedicationOverviewFragment.class.getName());
-		}
-
-		FragmentManager fragmentManager = getSupportFragmentManager();
+		/*FragmentManager fragmentManager = getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentById(R.id.mainFragment);
 		if (fragment == null)
 		{
-			if (medicationFragment == null)
-			{
-				medicationFragment = new MedicationOverviewFragment();
-			}
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.mainFragment, medicationFragment);
+			fragmentTransaction.replace(R.id.mainFragment, new MedicationOverviewFragment());
 			fragmentTransaction.commit();
 		}
+
+		Medication.loadAll(this, new Medication.OnMedicationLoadedListener()
+		{
+			@Override public void onMedicationLoaded(List<Medication> loadedMedication)
+			{
+				Toast.makeText(MainActivity.this, "Loaded " + loadedMedication.size() + " medication(s)", Toast.LENGTH_SHORT).show();
+			}
+		});*/
 	}
 
-	@Override protected void onSaveInstanceState(Bundle outState)
-	{
-		super.onSaveInstanceState(outState);
-
-		getSupportFragmentManager().putFragment(outState, MedicationOverviewFragment.class.getName(), medicationFragment);
-	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
