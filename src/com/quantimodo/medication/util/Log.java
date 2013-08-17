@@ -1,4 +1,4 @@
-package com.quantimodo.medication;
+package com.quantimodo.medication.util;
 
 public class Log
 {

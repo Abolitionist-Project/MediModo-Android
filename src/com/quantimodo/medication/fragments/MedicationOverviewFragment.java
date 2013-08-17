@@ -11,8 +11,9 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.quantimodo.medication.ManageMedicationActivity;
 import com.quantimodo.medication.R;
+import com.quantimodo.medication.activities.EditMedicationActivity;
+import com.quantimodo.medication.util.Log;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,8 @@ public class MedicationOverviewFragment extends SherlockFragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		super.onCreateView(inflater, container, savedInstanceState);
+
+		Log.i("ISHERE");
 
 		if (container == null)
 		{
@@ -58,7 +61,7 @@ public class MedicationOverviewFragment extends SherlockFragment
 		switch (item.getItemId())
 		{
 		case R.id.action_add:
-			Intent intent = new Intent(this.getActivity(), ManageMedicationActivity.class);
+			Intent intent = new Intent(this.getActivity(), EditMedicationActivity.class);
 			this.getActivity().startActivity(intent);
 			return true;
 		default:

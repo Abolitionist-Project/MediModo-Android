@@ -7,6 +7,4 @@
     android:padding="12dp"
     android:divider="@null"
     android:dividerHeight="0px"
-    android:clipToPadding="false">
-
-</org.holoeverywhere.widget.ListView>
+    android:clipToPadding="false"/>

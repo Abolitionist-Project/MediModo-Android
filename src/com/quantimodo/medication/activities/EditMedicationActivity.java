@@ -1,4 +1,4 @@
-package com.quantimodo.medication;
+package com.quantimodo.medication.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +16,14 @@ import android.widget.ImageButton;
 import com.actionbarsherlock.app.ActionBar;
 import com.google.gson.stream.JsonReader;
 import com.google.zxing.client.android.CaptureActivity;
+import com.quantimodo.medication.R;
 import com.quantimodo.medication.dialogs.SetScheduleDialog;
 import com.quantimodo.medication.things.Medication;
 import com.quantimodo.medication.things.MedicationDose;
 import com.quantimodo.medication.things.MedicationReminder;
 import com.quantimodo.medication.things.MedicationSchedule;
+import com.quantimodo.medication.util.ConvertUtils;
+import com.quantimodo.medication.util.ViewUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -35,7 +38,7 @@ import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class ManageMedicationActivity extends Activity
+public class EditMedicationActivity extends Activity
 {
 	private LinearLayout linearLayout;
 	private AutoCompleteTextView tvMedicationName;
@@ -52,7 +55,7 @@ public class ManageMedicationActivity extends Activity
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_managemedication);
+		setContentView(R.layout.activity_editmedication);
 
 		initActionBarButtons();
 
@@ -84,7 +87,7 @@ public class ManageMedicationActivity extends Activity
 	{
 		@Override public void onClick(View view)
 		{
-			medication.save(ManageMedicationActivity.this);
+			medication.save(EditMedicationActivity.this);
 			medication = null;
 
 			setResult(RESULT_OK);
@@ -141,7 +144,7 @@ public class ManageMedicationActivity extends Activity
 	private void initDosagesCard()
 	{
 		LayoutInflater inflater = getLayoutInflater();
-		lnDosageCard = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_dosages, null);
+		lnDosageCard = (LinearLayout) inflater.inflate(R.layout.activity_editmedication_dosages, null);
 
 		final EditText btAddNew = (EditText) lnDosageCard.findViewById(R.id.btAddNew);
 		btAddNew.setOnClickListener(new View.OnClickListener()
@@ -175,17 +178,17 @@ public class ManageMedicationActivity extends Activity
 		dosageSelectSpinnerAdapters = new ArrayList<DosageSelectSpinnerAdapter>();
 
 		View paddingView = new View(getApplicationContext());
-		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
+		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ConvertUtils.dpToPx(12, getResources())));
 		linearLayout.addView(paddingView);
 
-		lnScheduleCard = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_managemedication_schedule, null);
+		lnScheduleCard = (LinearLayout) getLayoutInflater().inflate(R.layout.activity_editmedication_schedule, null);
 
 		final EditText btSetSchedule = (EditText) lnScheduleCard.findViewById(R.id.btSetSchedule);
 		btSetSchedule.setOnClickListener(new View.OnClickListener()
 		{
 			@Override public void onClick(View view)
 			{
-				new SetScheduleDialog().show(ManageMedicationActivity.this, medication.schedule, new SetScheduleDialog.OnScheduleEditedListener()
+				new SetScheduleDialog().show(EditMedicationActivity.this, medication.schedule, new SetScheduleDialog.OnScheduleEditedListener()
 				{
 					@Override public void onEdited(MedicationSchedule newSchedule)
 					{
@@ -228,16 +231,16 @@ public class ManageMedicationActivity extends Activity
 	/*private void initInfoCard()
 	{
 		View paddingView = new View(getApplicationContext());
-		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Utils.convertDpToPixel(12, getResources())));
+		paddingView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewUtils.convertDpToPixel(12, getResources())));
 		linearLayout.addView(paddingView);
 
-		View view = getLayoutInflater().inflate(R.layout.activity_managemedication_info, null);
+		View view = getLayoutInflater().inflate(R.layout.activity_editmedication_info, null);
 		linearLayout.addView(view);
 	}*/
 
 	private void addDosageLine(final MedicationDose dose, boolean isFirst, boolean canRemove)
 	{
-		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_managemedication_dosages_line, null);
+		final View newDosageLine = getLayoutInflater().inflate(R.layout.activity_editmedication_dosages_line, null);
 
 		final EditText etDosageStrength = (EditText) newDosageLine.findViewById(R.id.etDosageStrength);
 		final Spinner spDosageUnit = (Spinner) newDosageLine.findViewById(R.id.spDosageUnit);
@@ -259,7 +262,7 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				Utils.collapseView(newDosageLine, new Animation.AnimationListener()
+				ViewUtils.collapseView(newDosageLine, new Animation.AnimationListener()
 				{
 					@Override public void onAnimationStart(Animation animation)
 					{
@@ -299,7 +302,7 @@ public class ManageMedicationActivity extends Activity
 					}
 					catch (NumberFormatException e)
 					{
-						Toast.makeText(ManageMedicationActivity.this, "Invalid number", Toast.LENGTH_SHORT).show();
+						Toast.makeText(EditMedicationActivity.this, "Invalid number", Toast.LENGTH_SHORT).show();
 					}
 					updateDosageSelectAdapters(dose, false);
 				}
@@ -332,7 +335,7 @@ public class ManageMedicationActivity extends Activity
 		}
 		if (!isFirst)
 		{
-			Utils.expandView(newDosageLine, null);
+			ViewUtils.expandView(newDosageLine, null);
 			InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 			etDosageStrength.requestFocus();
@@ -341,7 +344,7 @@ public class ManageMedicationActivity extends Activity
 
 	private void addScheduleLine(final MedicationReminder reminder, boolean isFirst, boolean canRemove)
 	{
-		final View newTimeLine = getLayoutInflater().inflate(R.layout.activity_managemedication_schedule_line, null);
+		final View newTimeLine = getLayoutInflater().inflate(R.layout.activity_editmedication_schedule_line, null);
 
 		final EditText btScheduleTime = (EditText) newTimeLine.findViewById(R.id.btScheduleTime);
 		final Spinner spDosage = (Spinner) newTimeLine.findViewById(R.id.spDosage);
@@ -362,15 +365,15 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				TimePickerDialog timePicker = new TimePickerDialog(ManageMedicationActivity.this, new TimePickerDialog.OnTimeSetListener()
+				TimePickerDialog timePicker = new TimePickerDialog(EditMedicationActivity.this, new TimePickerDialog.OnTimeSetListener()
 				{
 					@Override public void onTimeSet(TimePicker view, int hour, int minute)
 					{
 						reminder.hour = hour;
 						reminder.minute = minute;
-						btScheduleTime.setText(reminder.getHumanReadableTime(ManageMedicationActivity.this));
+						btScheduleTime.setText(reminder.getHumanReadableTime(EditMedicationActivity.this));
 					}
-				}, reminder.hour, reminder.minute, DateFormat.is24HourFormat(ManageMedicationActivity.this));
+				}, reminder.hour, reminder.minute, DateFormat.is24HourFormat(EditMedicationActivity.this));
 				timePicker.setTitle(R.string.managemedication_schedule_remindertitle);
 				timePicker.show();
 			}
@@ -380,7 +383,7 @@ public class ManageMedicationActivity extends Activity
 		{
 			@Override public void onClick(View view)
 			{
-				Utils.collapseView(newTimeLine, new Animation.AnimationListener()
+				ViewUtils.collapseView(newTimeLine, new Animation.AnimationListener()
 				{
 					@Override public void onAnimationStart(Animation animation)
 					{
@@ -423,7 +426,7 @@ public class ManageMedicationActivity extends Activity
 		}
 		if (!isFirst)
 		{
-			Utils.expandView(newTimeLine, null);
+			ViewUtils.expandView(newTimeLine, null);
 		}
 	}
 
@@ -478,7 +481,7 @@ public class ManageMedicationActivity extends Activity
 		{
 			super(context, 0);
 			this.inflater = LayoutInflater.from(context);
-			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
+			this.preferredHeight = ConvertUtils.dpToPx(48, getResources());
 			this.unitsReadable = context.getResources().getStringArray(R.array.units_readable);
 			this.units = context.getResources().getStringArray(R.array.units);
 		}
@@ -502,7 +505,7 @@ public class ManageMedicationActivity extends Activity
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent)
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_dosages_units, null);
+			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_editmedication_dosages_units, null);
 
 			TextView tvUnitReadable = (TextView) view.findViewById(R.id.tvUnitReadable);
 			tvUnitReadable.setText(unitsReadable[position]);
@@ -537,7 +540,7 @@ public class ManageMedicationActivity extends Activity
 			super(context, 0, 0, medication.dosages);
 
 			this.inflater = LayoutInflater.from(context);
-			this.preferredHeight = Utils.convertDpToPixel(48, getResources());
+			this.preferredHeight = ConvertUtils.dpToPx(48, getResources());
 
 			selectedView = (TextView) inflater.inflate(R.layout.sherlock_spinner_dropdown_item, null);
 		}
@@ -557,7 +560,7 @@ public class ManageMedicationActivity extends Activity
 		@Override
 		public View getDropDownView(int position, View convertView, ViewGroup parent)
 		{
-			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_managemedication_schedule_dosages, null);
+			LinearLayout view = (LinearLayout) inflater.inflate(R.layout.activity_editmedication_schedule_dosages, null);
 
 			MedicationDose currentDose = getItem(position);
 

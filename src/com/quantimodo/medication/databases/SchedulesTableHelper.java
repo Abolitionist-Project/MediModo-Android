@@ -1,6 +1,6 @@
 package com.quantimodo.medication.databases;
 
-import com.quantimodo.medication.Log;
+import com.quantimodo.medication.util.Log;
 import com.quantimodo.medication.things.Medication;
 import com.quantimodo.medication.things.MedicationSchedule;
 

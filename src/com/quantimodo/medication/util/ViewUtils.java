@@ -1,34 +1,12 @@
-package com.quantimodo.medication;
+package com.quantimodo.medication.util;
 
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-public class Utils
+public class ViewUtils
 {
-	public static int convertDpToPixel(float dp, Resources res)
-	{
-		DisplayMetrics metrics = res.getDisplayMetrics();
-		float px = dp * (metrics.densityDpi / 160f);
-		return (int) px;
-	}
-
-	public static int convertPixelsToDp(float px, Resources res)
-	{
-		DisplayMetrics metrics = res.getDisplayMetrics();
-		float dp = px / (metrics.densityDpi / 160f);
-		return (int) dp;
-	}
-
-	public static float convertSpToPixels(float px, Resources res)
-	{
-		float scaledDensity = res.getDisplayMetrics().scaledDensity;
-		return px * scaledDensity;
-	}
-
 	public static void expandView(final View v, Animation.AnimationListener listener)
 	{
 		v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);

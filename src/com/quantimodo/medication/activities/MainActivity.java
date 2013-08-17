@@ -1,9 +1,19 @@
-package com.quantimodo.medication;
+package com.quantimodo.medication.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.quantimodo.medication.Global;
+import com.quantimodo.medication.R;
+import com.quantimodo.medication.fragments.MedicationOverviewFragment;
+import com.quantimodo.medication.things.Medication;
+import org.holoeverywhere.widget.Toast;
+
+import java.util.List;
 
 public class MainActivity extends SherlockFragmentActivity
 {
@@ -14,7 +24,7 @@ public class MainActivity extends SherlockFragmentActivity
 
 		Global.init(this);
 
-		/*FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentManager fragmentManager = getSupportFragmentManager();
 		Fragment fragment = fragmentManager.findFragmentById(R.id.mainFragment);
 		if (fragment == null)
 		{
@@ -29,7 +39,7 @@ public class MainActivity extends SherlockFragmentActivity
 			{
 				Toast.makeText(MainActivity.this, "Loaded " + loadedMedication.size() + " medication(s)", Toast.LENGTH_SHORT).show();
 			}
-		});*/
+		});
 	}
 
 

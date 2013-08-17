@@ -14,8 +14,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.ViewFlipper;
 import com.quantimodo.medication.R;
-import com.quantimodo.medication.Utils;
 import com.quantimodo.medication.things.MedicationSchedule;
+import com.quantimodo.medication.util.ConvertUtils;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.app.AlertDialog;
 import org.holoeverywhere.widget.*;
@@ -220,7 +220,7 @@ public class SetScheduleDialog
 		TableLayout tableLayout = (TableLayout) view.findViewById(R.id.vwMonthly);
 		int totalViews = 0;
 
-		int buttonDimens = Utils.convertDpToPixel(40, context.getResources());
+		int buttonDimens = ConvertUtils.dpToPx(40, context.getResources());
 		TableRow.LayoutParams buttonLayoutParams = new TableRow.LayoutParams(buttonDimens, buttonDimens);
 		TableRow.LayoutParams spacerViewParams = new TableRow.LayoutParams(0, 1, 1);
 
@@ -375,7 +375,7 @@ public class SetScheduleDialog
 			super(context, R.layout.sherlock_spinner_dropdown_item);
 
 			this.inflater = LayoutInflater.from(context);
-			this.preferredHeight = Utils.convertDpToPixel(48, context.getResources());
+			this.preferredHeight = ConvertUtils.dpToPx(48, context.getResources());
 
 			Resources res = context.getResources();
 			if (scheduleTypes == null || scheduleTypesPlural == null)    // Cache strings to prevent choppy animations
@@ -391,7 +391,7 @@ public class SetScheduleDialog
 			}
 			spScheduleTypeSelected = new TextView(context);
 			spScheduleTypeSelected.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-			spScheduleTypeSelected.setPadding(Utils.convertDpToPixel(8, context.getResources()), 0, 0, 0);
+			spScheduleTypeSelected.setPadding(ConvertUtils.dpToPx(8, context.getResources()), 0, 0, 0);
 			spScheduleTypeSelected.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			spScheduleTypeSelected.setTextColor(res.getColor(R.color.card_title));
 			if (spScheduleInterval.getSelectedItemPosition() == 0)
@@ -451,7 +451,7 @@ public class SetScheduleDialog
 			view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 			view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
 			view.setTextColor(context.getResources().getColor(R.color.card_title));
-			view.setPadding(Utils.convertDpToPixel(8, context.getResources()), 0, 0, 0);
+			view.setPadding(ConvertUtils.dpToPx(8, context.getResources()), 0, 0, 0);
 			if (position == 0)
 			{
 				view.setText("Every");
