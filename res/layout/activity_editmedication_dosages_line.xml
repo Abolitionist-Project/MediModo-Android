@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.holoeverywhere.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <org.holoeverywhere.widget.EditText
+        android:id="@+id/etDosageStrength"
+        android:layout_width="102dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="12dp"
+        android:hint="@string/managemedication_dosages_strength"
+        android:imeOptions="actionDone"
+        android:inputType="numberSigned"/>
+    <org.holoeverywhere.widget.Spinner
+        android:id="@+id/spDosageUnit"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:paddingRight="8dp"
+        android:layout_height="48dp"/>
+    <ImageButton
+        android:id="@+id/btRemoveDose"
+        android:layout_width="44dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="8dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/ic_action_cancel_dark"
+        android:background="@drawable/selector" />
+
+</org.holoeverywhere.widget.LinearLayout>

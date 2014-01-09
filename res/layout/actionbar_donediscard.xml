@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_horizontal">
+
+    <org.holoeverywhere.widget.LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_horizontal"
+        android:orientation="horizontal">
+
+        <org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/actionbar_discard"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:background="@drawable/selector"
+            android:clickable="true">
+
+            <org.holoeverywhere.widget.TextView
+                style="@style/Widget.Sherlock.ActionBar.TabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_action_cancel"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/action_discard"
+                android:textColor="@android:color/white" />
+
+        </org.holoeverywhere.widget.FrameLayout>
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="#55FFFFFF" />
+
+        <org.holoeverywhere.widget.FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/actionbar_done"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:background="@drawable/selector"
+            android:clickable="true">
+
+            <org.holoeverywhere.widget.TextView
+                style="@style/Widget.Sherlock.ActionBar.TabText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableLeft="@drawable/ic_action_done"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/action_save"
+                android:textColor="@android:color/white" />
+
+        </org.holoeverywhere.widget.FrameLayout>
+
+    </org.holoeverywhere.widget.LinearLayout>
+</RelativeLayout>
